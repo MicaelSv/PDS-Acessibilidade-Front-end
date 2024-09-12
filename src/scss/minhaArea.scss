@@ -1,0 +1,72 @@
+.minhaArea {
+    width: 100%;
+
+    .mBloco1 {
+        display: flex;
+        margin-top: 75px;
+        justify-content: space-evenly;
+
+        p {
+            margin-top: 2px;
+            color: #798086;
+        }
+
+        .mContainer2 {
+            border-radius: 5px;
+            cursor: pointer;
+
+            .btnCurriculo {
+                width: 160px;
+                height: 45px;
+                margin-right: 20px;
+                background-color: #FF981F;
+                color: white;
+                border-radius: 4px;
+            }
+
+            .btnVaga {
+                width: 120px;
+                height: 45px;
+                margin-right: 20px;
+                background-color: #6E29FF;
+                color: white;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .mBloco2 {
+        display: flex;
+        gap: 70px;
+        margin-top: 65px;
+        align-items: center;
+        justify-content: center;
+
+        .buscarCurriculos, .anunciarVagas {
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            height: 100px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 45px;
+
+            h4 {
+                margin-bottom: 10px;
+            }
+
+            .content {
+                display: flex;
+                align-items: center;
+                gap: 10px; /* Espaçamento entre o texto e a imagem */
+                
+                p {
+                    margin: 0; /* Remove margens adicionais */
+                }
+            }
+        }
+    }
+}

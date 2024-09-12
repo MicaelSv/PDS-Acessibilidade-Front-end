@@ -1,0 +1,43 @@
+.container-content5{
+    .container-in{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        text-align: center;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        margin-inline: auto;
+        width: 100%;
+        align-items: center;
+        h2{
+            color: #4A90E2;
+        }
+
+        p{ 
+            margin-top: 8px;
+            margin-bottom: 3px;
+            max-width: 500px;
+        }
+
+
+        .btnCadastro{
+            cursor: pointer;
+            background-color: transparent; /* Remove a cor de fundo */
+            width: 110px;
+            border: 2px solid black;
+            color: black;
+            padding: 10px;
+            margin: 20px auto 0; /* Centraliza horizontalmente com 'auto' e dá um espaçamento superior */
+            border-radius: 5px; /* Bordas arredondadas */
+            transition: background-color 0.3s ease; /* Suaviza a mudança de cor ao passar o mouse */
+
+            &:hover {
+                background-color: #4A90E2; /* Cor de fundo ao passar o mouse */
+                color: white; /* Muda a cor do texto ao passar o mouse */
+                border: none;
+            }
+
+
+        }
+    }
+}

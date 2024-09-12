@@ -1,0 +1,48 @@
+.buscaCurriculos {
+    text-align: center;
+    margin-top: 10px;
+    padding: 20px;
+  
+    h3 {
+      margin-bottom: 5px;
+    }
+  
+    p {
+      margin-bottom: 10px;
+      color: #798086;
+    }
+  
+    .searchForm {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+  
+      .inputField {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 300px;
+      }
+  
+      .searchButton {
+        background-color: #FF981F;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #e58d1a;
+        }
+      }
+    }
+
+    /* Centralizar a imagem */
+    .img-busca {
+      display: block; /* Garante que o elemento ocupe 100% da largura disponível */
+      margin: 50px auto 0; /* Aumenta a margem superior para 40px e remove margem inferior */
+      border-radius: 15%; /* Mantém o estilo da borda */
+    }
+}

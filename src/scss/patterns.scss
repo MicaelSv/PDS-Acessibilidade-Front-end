@@ -1,0 +1,8 @@
+.flex{
+    display: flex;
+    &.gap-20{
+        gap: 20px;
+        cursor: default !important;
+    }
+}
+  

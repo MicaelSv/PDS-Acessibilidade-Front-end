@@ -1,0 +1,50 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialized;
+}
+img{
+	max-width: 100%;
+	display: block;
+}
+a{
+	display: inline-block;
+	text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+button{
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+html, body {
+	height: 100%; /* Garante que o body ocupe 100% da altura */
+	margin: 0;
+	padding: 0;
+  }
+  
+  #root, .app-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh; /* Garante que a altura total seja sempre ocupada */
+  }
+  
+  .app-content {
+	flex-grow: 1; /* Faz com que o conteúdo cresça para empurrar o footer */
+  }
+
+  .content-wrap { //adicionei essse tb
+	flex: 1; /* O conteúdo ocupa o espaço disponível, empurrando o footer para baixo */
+  }
+  
+  footer { /*se tirar esse footer talvez ele ainda fique na posicao certa*/
+	background-color: #f1f1f1;
+	padding: 20px;
+	text-align: center;
+	width: 100%;
+  }

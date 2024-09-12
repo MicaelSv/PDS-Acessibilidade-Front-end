@@ -1,0 +1,32 @@
+.container {
+  background-color: #e2e7f8;
+  margin-top: 25px;
+  height: 600px;
+  display: flex;
+ .content{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1024px;
+    margin-inline: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    .left{
+        margin-bottom: 70px;
+        max-width: 45%;
+        text-align: justify;
+        // Aqui você configura os tamanhos dos textos etc
+        .hero-paragraph{
+          margin-top: 10px;
+        }
+        .button-hero{
+          margin-top: 40px;
+          width: 115px;
+          height: 40px;
+          color: white;
+          background-color: #3A5BCC;
+          border-radius: 5px
+        }
+    }
+ }
+}
