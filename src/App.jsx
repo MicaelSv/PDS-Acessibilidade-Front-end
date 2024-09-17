@@ -8,12 +8,14 @@ import Content4 from './components/homePage/Content4';
 import Content5 from './components/homePage/Content5';
 import Footer from './components/homePage/Footer';
 
-import CandidatoForm from './components/CandidatoForm';
+//import CandidatoForm from './components/CandidatoForm';
 import HeaderEmpresa from './components/empresa/headerEmpresa.jsx';
 import MinhaArea from './components/empresa/MinhaArea.jsx';
+import MinhaAreaCandidato from './components/candidato/MinhaAreaCandidato.jsx';
 import BuscaCurriculos from './components/empresa/BuscaCurriculos.jsx';
 import MinhasVagas from './components/empresa/MinhasVagas.jsx';
 import './scss/reset.scss';
+import HeaderCandidato from './components/candidato/HeaderCandidato.jsx';
 
 function App() {  
   return (
@@ -36,7 +38,13 @@ function App() {
               } 
             />
 
-            <Route path="/candidato" element={<CandidatoForm />} />
+            <Route path="/homeCandidato" element={
+                <>
+                  <HeaderCandidato/>
+                  <MinhaAreaCandidato/>
+                </>
+              } 
+            />
 
             <Route path="/homeEmpresa" 
               element={
