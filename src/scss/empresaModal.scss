@@ -1,0 +1,129 @@
+.empresa-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: auto; /* Permitir rolagem se o modal for maior que a tela */
+}
+
+.empresa-modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.empresa-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1; /* Garantir que o botão esteja visível */
+}
+
+.empresa-modal-body {
+  display: flex;
+  width: 100%;
+}
+
+.empresa-modal-left {
+  flex: 1;
+}
+
+.empresa-modal-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.empresa-modal-right {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100vh; /* Limitar a altura ao tamanho da tela */
+  overflow-y: auto;
+}
+
+.empresa-modal-right h2 {
+  color: black;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.empresa-modal-right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.empresa-modal-right label {
+  color: black;
+  margin-bottom: 5px;
+}
+
+.empresa-modal-right input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.empresa-flex-group {
+  display: flex;
+  gap: 20px; /* Espaçamento entre os inputs */
+  margin-bottom: 15px;
+}
+
+.empresa-flex-group div {
+  flex: 1;
+}
+
+.empresa-cidade,
+.empresa-senha {
+  width: 194px; /* Ajuste a largura conforme necessário */
+}
+
+.empresa-submit-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #3A5BCC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.empresa-modal-right input:focus {
+  border-color: #3A5BCC;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .empresa-modal-content {
+    flex-direction: column;
+    width: 90%;
+  }
+
+  .empresa-modal-left {
+    height: 300px;
+  }
+}

@@ -9,7 +9,6 @@ import Content5 from './components/homePage/Content5';
 import Footer from './components/homePage/Footer';
 
 import CandidatoForm from './components/CandidatoForm';
-
 import HeaderEmpresa from './components/empresa/headerEmpresa.jsx';
 import MinhaArea from './components/empresa/MinhaArea.jsx';
 import BuscaCurriculos from './components/empresa/BuscaCurriculos.jsx';
@@ -36,7 +35,9 @@ function App() {
                 </>
               } 
             />
+
             <Route path="/candidato" element={<CandidatoForm />} />
+
             <Route path="/homeEmpresa" 
               element={
                 <>
@@ -45,6 +46,7 @@ function App() {
                 </>
               } 
             />
+
             <Route path="/buscaCurriculos" 
               element={
                 <>

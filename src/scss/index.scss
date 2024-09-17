@@ -35,6 +35,7 @@ body {
         display: inline-block;
 
         .hovercard {
+          margin-top: 1px;
           display: flex;
           flex-direction: column;
           position: absolute;
@@ -60,12 +61,14 @@ body {
         }
 
         .cadastro {
-          margin-top: 16px;
+          margin-top: 11px;
           color: black;
+          border-style:solid;
           background-color: white;
-          border-color: #3A5BCC;
-          border-width: 0.3px;
+          border-color: black;
+          border-width: 2px;
           padding-inline: 20px;
+          height: 30px;
           border-radius: 8px;
           cursor: pointer;
         }

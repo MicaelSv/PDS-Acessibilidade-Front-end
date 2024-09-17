@@ -1,11 +1,18 @@
+// src/components/Header.js
 import '../../scss/index.scss';
 import '../../scss/patterns.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
+import EmpresaModal from './EmpresaModal';
+import LoginModal from './LoginModal';
 
-function Header(){
+function Header() {
   const [showHoverCard, setShowHoverCard] = useState(false);
-  const navigate = useNavigate(); // Hook para navegar entre páginas
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpresaModal, setShowEmpresaModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header>
@@ -26,13 +33,25 @@ function Header(){
           <button className='cadastro'>Cadastre-se</button>
           {showHoverCard && (
             <div className='hovercard'>
-              <p onClick={() => navigate('/candidato')}>Candidato</p>
-              <p>Empresa</p>
+              <p onClick={() => setShowModal(true)}>Candidato</p>
+              <p onClick={() => setShowEmpresaModal(true)}>Empresa</p>
             </div>
           )}
         </div>
-        <button className='entrar'>Entrar</button>
+        <button className='entrar' onClick={() => setShowLoginModal(true)}>Entrar</button>
       </div>
+
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)} />
+      )}
+
+      {showEmpresaModal && (
+        <EmpresaModal onClose={() => setShowEmpresaModal(false)} />
+      )}
+
+      {showLoginModal && (
+        <LoginModal onClose={() => setShowLoginModal(false)} />
+      )}
     </header>
   );
 }
