@@ -4,7 +4,7 @@ function Content() {
   return (
     <section className="section-1">
       <div className="left">
-        <img src="src\assets\quem_somos.png" height={400} width={500}></img>
+        <img src="/quem_somos.png" height={400} width={500}></img>
       </div>
       <div className="right-text">
         <div className="text-content">

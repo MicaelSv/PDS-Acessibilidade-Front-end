@@ -27,7 +27,7 @@ function Hero() {
 
         <div className="right">
           <div className="img-hero">
-            <img src="src\assets\img-hero.png" height={400} width={400}></img>
+            <img src="/img-hero.png" height={400} width={400}></img>
           </div>
         </div>
       </div>

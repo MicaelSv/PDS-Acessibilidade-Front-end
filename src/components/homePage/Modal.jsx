@@ -7,7 +7,7 @@ function Modal({ onClose }) {
         <button className="close-button" onClick={onClose}>X</button>
         <div className="modal-body">
           <div className="modal-left">
-            <img src="src\assets\img-register-candidato.jpg" alt="Registration" />
+            <img src="/img-register-candidato.jpg" alt="Registration" />
           </div>
           <div className="modal-right">
             <h2>Registro de Candidato</h2> 

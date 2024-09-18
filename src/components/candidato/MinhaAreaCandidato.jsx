@@ -83,7 +83,7 @@ function MinhaAreaCandidato() {
         <div className='direita'>
           <h3>Suas pesquisas recentes</h3>
           <div className="pesquisa-recente">
-            <img className="lupa-icon" src="src\assets\lupa-pesquisa.png" alt="Ícone de lupa" />
+            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
             <div className="pesquisa-info">
               <p>Gerente de operações</p>
               <p>10 novas vagas</p>
@@ -91,7 +91,7 @@ function MinhaAreaCandidato() {
           </div>
 
           <div className="pesquisa-recente">
-            <img className="lupa-icon" src="src\assets\lupa-pesquisa.png" alt="Ícone de lupa" />
+            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
             <div className="pesquisa-info">
               <p>Consultor de negócios</p>
               <p>7 novas vagas</p>
@@ -99,7 +99,7 @@ function MinhaAreaCandidato() {
           </div>
 
           <div className="pesquisa-recente">
-            <img className="lupa-icon" src="src\assets\lupa-pesquisa.png" alt="Ícone de lupa" />
+            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
             <div className="pesquisa-info">
               <p>Analista de dados</p>
               <p>3 novas vagas</p>

@@ -32,7 +32,7 @@ function Content3() {
       </div>
 
       <img
-        src="src\assets\trabalhadores.png"
+        src="/trabalhadores.png"
         className="img-trabalhador"
         height={420}
         width={420}

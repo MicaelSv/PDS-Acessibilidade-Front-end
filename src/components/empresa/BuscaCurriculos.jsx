@@ -25,7 +25,7 @@ function BuscaCurriculos() {
         />
         <button type="submit" className="searchButton">Buscar</button>
       </form>
-      <img src='src\assets\busca.png' height={300} width={345} style={{ borderRadius: '15%' }} alt="busca" className='img-busca'></img>
+      <img src='/busca.png' height={300} width={345} style={{ borderRadius: '15%' }} alt="busca" className='img-busca'></img>
     </div>
   );
 }

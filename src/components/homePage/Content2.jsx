@@ -7,7 +7,7 @@ function Content2() {
       <div className="bloco1">
         <div className="conex">
           <img
-            src="src\assets\grafico.png"
+            src="/grafico.png"
             className="img-grafic"
             height={55}
             width={55}
@@ -26,7 +26,7 @@ function Content2() {
       <div className="bloco2">
         <div className="suporte">
           <img
-            src="src\assets\suporte.png"
+            src="/suporte.png"
             className="img-suporte"
             height={55}
             width={55}
@@ -45,7 +45,7 @@ function Content2() {
       <div className="bloco3">
         <div className="oportunidade">
           <img
-            src="src\assets\oportunidade.png"
+            src="/oportunidade.png"
             className="img-oportunidade"
             height={55}
             width={55}

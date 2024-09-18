@@ -7,7 +7,7 @@ function EmpresaModal({ onClose }) {
         <button className="empresa-close-button" onClick={onClose}>X</button>
         <div className="empresa-modal-body">
           <div className="empresa-modal-left">
-            <img src="src/assets/img-empresa_modal.jpg" alt="Empresa" />
+            <img src="/img-empresa_modal.jpg" alt="Empresa" />
           </div>
           <div className="empresa-modal-right">
             <h2>Registro de Empresa</h2>

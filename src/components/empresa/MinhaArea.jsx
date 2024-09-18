@@ -38,7 +38,7 @@ function MinhaArea() {
           <div className='progressBar'>
               {step > 1 && (
                 <img
-                  src='src/assets/arrow.png'
+                  src='/arrow.png'
                   alt='Voltar'
                   className='arrow'
                   onClick={handlePrevStep}
@@ -142,7 +142,7 @@ function MinhaArea() {
             <h4>Faça sua busca de currículos!</h4>
             <div className='content'>
               <p>Comece agora mesmo e encontre os melhores currículos</p>
-              <img src='src/assets/document.svg.png' width={20} height={20} alt='Ícone de documento' />
+              <img src='/document.svg.png' width={20} height={20} alt='Ícone de documento' />
             </div>
           </div>
 
@@ -150,7 +150,7 @@ function MinhaArea() {
             <h4>Anuncie uma vaga para receber candidaturas</h4>
             <div className='content'>
               <p>Você ainda não tem vagas ativas!</p>
-              <img src='src/assets/mala.png' width={20} height={20} alt='Ícone de mala' />
+              <img src='/mala.png' width={20} height={20} alt='Ícone de mala' />
             </div>
           </div>
         </div>

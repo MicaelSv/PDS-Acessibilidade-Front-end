@@ -7,7 +7,7 @@ function Header(){
         <header>
         <div className='buttons'>
           <div className='flex gap-20'>
-            <img src='src\assets\temp.png' height={40} width={40}></img>
+            <img src='/temp.png' height={40} width={40}></img>
             <p>AccessAble</p>
           </div>
           <p>Sobre nós</p>

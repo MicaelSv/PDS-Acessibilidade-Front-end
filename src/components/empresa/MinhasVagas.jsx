@@ -39,7 +39,7 @@ function MinhasVagas() {
             {vagasAbertas.length === 0 ? (
               <div className='no-vagas'>
                 <img 
-                  src='src/assets/noVagas.png' 
+                  src='/noVagas.png' 
                   height={170} 
                   width={200} 
                   style={{ borderRadius: '15%' }} 

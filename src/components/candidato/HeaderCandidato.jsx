@@ -19,7 +19,7 @@ function HeaderCandidato() {
   return (
     <div className='headerCandidato'>
       <div className='hbloco1'>
-        <img src="src/assets/logo.png" height={40} width={40} style={{ borderRadius: '15%' }} alt='Logotipo' className='imgLogo'></img>
+        <img src="/logo.png" height={40} width={40} style={{ borderRadius: '15%' }} alt='Logotipo' className='imgLogo'></img>
         <p>AccessAble</p>
       </div>
 
@@ -47,7 +47,7 @@ function HeaderCandidato() {
       <div className='hbloco3'>
         <p>Lucas</p>
         <img 
-          src="src/assets/menubar.png" 
+          src="/menubar.png" 
           height={18} 
           width={18} 
           className='menubar' 
