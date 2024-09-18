@@ -13,7 +13,7 @@ function LoginModal({ onClose }) {
     // Aqui você deve adicionar lógica para verificar credenciais e autenticar o usuário
 
     if (isCandidate) {
-      navigate('/home-candidato');
+      navigate('/homeCandidato');
     } else {
       navigate('/homeEmpresa');
     }

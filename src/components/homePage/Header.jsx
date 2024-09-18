@@ -18,7 +18,7 @@ function Header() {
     <header>
       <div className='buttons'>
         <div className='flex gap-20 logo' onClick={() => navigate('/')}>
-          <img src='src/assets/logo.png' height={40} width={40} style={{ borderRadius: '15%' }} alt="logo"></img>
+          <img src='/logo.png' height={40} width={40} style={{ borderRadius: '15%' }} alt="logo"></img>
           <p>AccessAble</p>
         </div>
         <p>Sobre nós</p>
