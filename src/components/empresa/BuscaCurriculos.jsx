@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../../scss/buscaCurriculos.scss';
+import '../../scss/empresa-scss/buscaCurriculos.scss';
 
 function BuscaCurriculos() {
   const [keyword, setKeyword] = useState('');

@@ -1,5 +1,6 @@
 import React from 'react';
-import '../../scss/minhaAreaCandidato.scss';
+import '../../scss/candidato-scss/minhaAreaCandidato.scss';
+
 
 function MinhaAreaCandidato() {
   return (

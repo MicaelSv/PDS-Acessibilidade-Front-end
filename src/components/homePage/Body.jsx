@@ -1,4 +1,4 @@
-import '../src/scss/index.scss';
+import '../src/scss/homePage-scss/index.scss';
 import '../src/scss/patterns.scss';
 
 

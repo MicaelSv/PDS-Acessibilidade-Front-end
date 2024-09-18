@@ -1,5 +1,5 @@
 // src/components/Header.js
-import '../../scss/index.scss';
+import '../../scss/homePage-scss/index.scss';
 import '../../scss/patterns.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

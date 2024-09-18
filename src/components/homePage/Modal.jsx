@@ -1,4 +1,4 @@
-import '../../scss/modal.scss'; // Novo arquivo de estilo para o modal
+import '../../scss/homePage-scss/modal.scss'; // Novo arquivo de estilo para o modal
 
 function Modal({ onClose }) {
   return (

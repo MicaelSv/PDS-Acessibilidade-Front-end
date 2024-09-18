@@ -1,4 +1,4 @@
-import '../../scss/empresaModal.scss';
+import '../../scss/homePage-scss/empresaModal.scss';
 
 function EmpresaModal({ onClose }) {
   return (

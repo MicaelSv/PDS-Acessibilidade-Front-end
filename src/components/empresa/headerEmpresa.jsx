@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importar o hook useNavigate
-import '../../scss/headerEmpresa.scss';
+import '../../scss/empresa-scss/headerEmpresa.scss';
 
 function HeaderEmpresa() {
   const [activePage, setActivePage] = useState('Minha área');

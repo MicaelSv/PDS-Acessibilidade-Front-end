@@ -1,4 +1,4 @@
-import "../../scss/content3.scss";
+import "../../scss/homePage-scss/content3.scss";
 
 function Content3() {
   return (

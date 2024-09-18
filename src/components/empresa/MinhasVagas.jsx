@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../../scss/minhasVagas.scss';
+import '../../scss/empresa-scss/minhasVagas.scss';
 
 function MinhasVagas() {
   const [activeTab, setActiveTab] = useState('abertas'); // Estado para controlar a aba ativa

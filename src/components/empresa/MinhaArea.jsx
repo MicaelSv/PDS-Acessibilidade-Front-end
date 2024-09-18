@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../scss/minhaArea.scss';
+import '../../scss/empresa-scss/minhaArea.scss';
 
 function MinhaArea() {
   const [showForm, setShowForm] = useState(false);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../scss/loginModal.scss';
+import '../../scss/homePage-scss/loginModal.scss';
 
 function LoginModal({ onClose }) {
   const [isCandidate, setIsCandidate] = useState(true);

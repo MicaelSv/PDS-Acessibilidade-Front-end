@@ -1,4 +1,4 @@
-import '../../scss/content5.scss';
+import '../../scss/homePage-scss/content5.scss';
 
 
 function Content5(){

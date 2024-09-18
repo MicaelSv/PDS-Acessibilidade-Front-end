@@ -1,0 +1,33 @@
+.content-3 {
+  display: flex;
+  height: 525px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  align-items: center;
+  width: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  justify-content: space-between;
+
+  .escolher-plataforma {
+    text-align: justify;
+    width: 45%;
+    .paragrafo1 {
+      color: #6f6e6e;
+    }
+    h3{
+        margin-top: 15px;
+    }
+    p {
+      color: #6f6e6e;
+      margin-top: 2.5px;
+    }
+    .paragrafo1{
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    .min-textos{
+        margin-left: 25px;
+    }
+  }
+}

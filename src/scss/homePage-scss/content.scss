@@ -1,0 +1,27 @@
+.section-1 {
+  margin-top: 100px;
+  width: 100%;
+  max-width: 1024px;
+  justify-content: space-between;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  .left {
+    width: 50%;
+    text-align: justify;
+    img {
+        width: 100%;
+    }
+  }
+}
+
+.right-text {
+  margin-bottom: 90px;
+  width: 45%;
+  text-align: justify;
+  p{
+    color: #6F6E6E;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}

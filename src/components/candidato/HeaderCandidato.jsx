@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importar o hook useNavigate
-import '../../scss/headerCandidato.scss'; // Criar um arquivo SCSS separado para o header do candidato
+import '../../scss/candidato-scss/headerCandidato.scss'; // Criar um arquivo SCSS separado para o header do candidato
 
 function HeaderCandidato() {
   const [activePage, setActivePage] = useState('Minha área');
