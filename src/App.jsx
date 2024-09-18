@@ -8,7 +8,6 @@ import Content4 from './components/homePage/Content4';
 import Content5 from './components/homePage/Content5';
 import Footer from './components/homePage/Footer';
 
-//import CandidatoForm from './components/CandidatoForm';
 import HeaderEmpresa from './components/empresa/headerEmpresa.jsx';
 import MinhaArea from './components/empresa/MinhaArea.jsx';
 import MinhaAreaCandidato from './components/candidato/MinhaAreaCandidato.jsx';
