@@ -216,3 +216,113 @@
         }
       }
     }
+
+    @media (max-width: 768px) {
+      .headerEmpresa {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 10px;
+    
+        .hbloco1, .hbloco2, .hbloco3 {
+          flex-direction: column;
+          align-items: center;
+          padding-top: 10px;
+        }
+    
+        .hbloco2 {
+          gap: 10px;
+          padding-top: 15px;
+    
+          .active::after {
+            height: 2px; /* Ajusta a altura da linha fina */
+            margin-bottom: 5px;
+          }
+        }
+    
+        .hbloco3 {
+          gap: 8px;
+          padding-top: 15px;
+    
+          .dropdown-menu {
+            top: 50px; /* Ajusta a posição do dropdown */
+            right: 10px;
+            width: 120px;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      .minhaArea {
+        .mBloco1 {
+          flex-direction: column;
+          align-items: center;
+          margin-top: 40px;
+    
+          .mContainer2 {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            .btnCurriculo, .btnVaga {
+              width: 200px;
+              margin-right: 0;
+              margin-bottom: 10px;
+            }
+          }
+        }
+    
+        .mBloco2 {
+          flex-direction: column;
+          gap: 30px;
+          margin-top: 40px;
+    
+          .buscarCurriculos, .anunciarVagas {
+            width: 90%;
+            max-width: 400px;
+            height: auto;
+            padding: 20px;
+          }
+        }
+
+        .anunciarVagas{
+          margin-bottom: 120px;
+        }
+    
+        .formContainer {
+          margin-top: 50px;
+          margin-bottom: 50px;
+    
+          .progressBar {
+            width: 90%;
+            max-width: 300px;
+    
+            .arrow {
+              left: -40px;
+            }
+    
+            .step {
+              width: 80px;
+    
+              p {
+                font-size: 10px;
+              }
+            }
+          }
+    
+          .formStep {
+            width: 90%;
+            max-width: 400px;
+    
+            form {
+              button {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+    

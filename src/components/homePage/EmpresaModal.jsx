@@ -21,7 +21,7 @@ function EmpresaModal({ onClose }) {
               <div className="empresa-flex-group">
                 <div>
                   <label>Número de Funcionários</label>
-                  <input type="number" placeholder="Digite o nº de funcionários" required />
+                  <input type="number" placeholder="Digite o nº de funcionários" className='empresa-number-funcionarios' required />
                 </div>
                 <div>
                   <label>Cidade</label>
@@ -32,7 +32,7 @@ function EmpresaModal({ onClose }) {
               <div className="empresa-flex-group">
                 <div>
                   <label>Email Corporativo</label>
-                  <input type="email" placeholder="Digite o email corporativo" required />
+                  <input type="email" placeholder="Digite o email corporativo" className='empresa-email'required />
                 </div>
                 <div>
                   <label>Senha</label>

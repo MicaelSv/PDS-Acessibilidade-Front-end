@@ -117,13 +117,212 @@
   outline: none;
 }
 
+.empresa-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: auto;
+}
+
+.empresa-modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.empresa-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.empresa-modal-body {
+  display: flex;
+  width: 100%;
+}
+
+.empresa-modal-left {
+  flex: 1;
+}
+
+.empresa-modal-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.empresa-modal-right {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.empresa-modal-right h2 {
+  color: black;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.empresa-modal-right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.empresa-modal-right label {
+  color: black;
+  margin-bottom: 5px;
+}
+
+.empresa-modal-right input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.empresa-flex-group {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.empresa-flex-group div {
+  flex: 1;
+}
+
+.empresa-cidade,
+.empresa-senha {
+  width: 194px;
+}
+
+.empresa-submit-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #3A5BCC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.empresa-modal-right input:focus {
+  border-color: #3A5BCC;
+  outline: none;
+}
+
+.empresa-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden; /* Remova a rolagem aqui */
+}
+
+.empresa-modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  max-height: 90vh; /* Limitar a altura total do modal */
+}
+
+.empresa-modal-body {
+  display: flex;
+  width: 100%;
+  overflow-y: auto; /* Permitir a rolagem no corpo do modal */
+}
+
+.empresa-modal-right {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 90vh; /* Limitar a altura para forçar rolagem interna em telas menores */
+  overflow-y: auto;
+}
+
 @media (max-width: 768px) {
   .empresa-modal-content {
     flex-direction: column;
-    width: 90%;
+    width: 95%;
+    max-height: 90vh; /* Limitar a altura total no mobile */
+    overflow-y: auto; /* Permitir a rolagem do modal inteiro no mobile */
+  }
+
+  .empresa-modal-body {
+    flex-direction: column;
+    overflow-y: auto; /* Permitir rolagem no conteúdo */
   }
 
   .empresa-modal-left {
-    height: 300px;
+    flex: none;
+    height: 200px;
+  }
+
+  .empresa-modal-left img {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .empresa-modal-right {
+    flex: none;
+    padding: 15px;
+    max-height: none; /* Remover limite de altura */
+    flex-direction: column; /* Mantém os campos um abaixo do outro */
+  }
+
+  .empresa-flex-group {
+    flex-direction: column; /* Alinha os campos verticalmente */
+    gap: 1px; /* Ajusta o espaçamento entre os campos */
+
+    .empresa-cidade, .empresa-senha{
+      margin-bottom: 2px;
+    }
+
+    .empresa-email, .empresa-number-funcionarios{
+      width: 100%;
+    }
+  }
+
+  .empresa-cidade,
+  .empresa-senha {
+    width: 100%; /* Ajusta a largura para 100% no mobile */
   }
 }

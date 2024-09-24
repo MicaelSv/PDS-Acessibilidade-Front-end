@@ -30,3 +30,33 @@
     }
  }
 }
+
+@media (max-width: 768px) {
+  .content {
+    .left {
+      margin-left: 0.6rem;
+      h1 {
+        font-size: 1.4rem;
+      }
+      p {
+        width: 150px;
+        font-size: 0.8rem;
+        line-height: 1.0;
+      }
+
+      .button-hero {
+        margin-left: 20px;
+      }
+    }
+
+    .right {
+      .img-hero {
+        img {
+          width: 100%; /* Ajusta a largura da imagem */
+          height: 250px;/* Mantém a proporção da imagem */
+          max-width: 300px; /* Define um tamanho máximo para a imagem */
+        }
+      }
+    }
+  }
+}

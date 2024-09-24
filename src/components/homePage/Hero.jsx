@@ -3,6 +3,7 @@ import "../../scss/homePage-scss/hero.scss";
 function Hero() {
   return (
     <div className="container">
+      
       <div className="content">
 
         <div className="left">

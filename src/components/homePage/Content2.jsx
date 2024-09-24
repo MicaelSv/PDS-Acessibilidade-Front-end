@@ -4,6 +4,7 @@ function Content2() {
   return (
     <div className="container2">
       <div className="content">
+        
       <div className="bloco1">
         <div className="conex">
           <img

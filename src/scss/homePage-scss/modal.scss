@@ -99,3 +99,153 @@
   border-color: #3A5BCC; /* Altere para a cor azul desejada */
   outline: none; /* Remove o outline padrão */
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.modal-body {
+  display: flex;
+  width: 100%;
+}
+
+.modal-left {
+  flex: 1;
+  margin: 0;
+}
+
+.modal-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.modal-right {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-right h2 {
+  color: black;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.modal-right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-right label {
+  color: black;
+  margin-bottom: 5px;
+}
+
+.modal-right input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #3A5BCC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-right input:focus {
+  border-color: #3A5BCC;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .modal-left, .modal-right {
+    flex: none;
+    width: 100%;
+  }
+
+  .modal-left img {
+    height: 200px;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 10px;
+  }
+
+  .modal-right {
+    padding: 15px;
+  }
+
+  .modal-right h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+
+  .modal-right input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submit-button {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .close-button {
+    top: 5px;
+    right: 5px;
+    font-size: 18px;
+  }
+}

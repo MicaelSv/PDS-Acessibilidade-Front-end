@@ -44,3 +44,14 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .blocos {
+    flex-direction: column;
+    margin: 0 auto;
+    .cubo1, .cubo2, .cubo3 {
+      width: 100%;
+      margin: 20px 0;
+    }
+  }
+}

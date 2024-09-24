@@ -31,3 +31,35 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .content-3 {
+    flex-direction: column; /* Alterna para uma coluna */
+    align-items: center;
+    height: auto;
+    justify-content: center; /* Centraliza o conteúdo */
+    padding: 20px;
+
+    .escolher-plataforma {
+      width: 100%; /* O texto ocupa toda a largura */
+      text-align: center; /* Centraliza o texto */
+
+      .min-textos {
+        margin-left: 0;
+      }
+
+      h3 {
+        margin-top: 10px;
+        font-size: 1rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+      }
+    }
+
+    .img-trabalhador {
+      display: none; /* Oculta a imagem em telas menores */
+    }
+  }
+}

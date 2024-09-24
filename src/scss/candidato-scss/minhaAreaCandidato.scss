@@ -203,4 +203,40 @@
 
     }
   }
+
+  @media (max-width: 768px) {
+    .AreaCandidato {
+      .contentArea {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+  
+        .esquerda, .meio, .direita {
+          width: 90%; /* Ajusta a largura para 90% no mobile */
+          margin-left: 0; /* Remove a margem esquerda */
+        }
+  
+        .esquerda {
+          .stats-container {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+          }
+  
+          .profile-strength {
+            width: 100%; /* Ajusta a largura para 100% no mobile */
+          }
+        }
+  
+        .meio {
+          margin-bottom: 20px;
+        }
+  
+        .direita {
+          margin-left: 0; /* Remove a margem esquerda */
+        }
+      }
+    }
+  }
   

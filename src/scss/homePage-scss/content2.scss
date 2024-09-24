@@ -93,7 +93,34 @@
         }
     }
 }
-    
-
-   
 }
+
+@media (max-width: 768px) {
+    .container2 {
+      padding: 10px;
+  
+      .content {
+        flex-direction: column;
+        margin-left: 38px;
+      }
+  
+      .bloco1, .bloco2, .bloco3 {
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+  
+        img {
+          width: 40px;
+          height: 40px;
+        }
+  
+        p {
+          font-size: 0.9rem;
+        }
+  
+        span {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }

@@ -1,5 +1,5 @@
 // src/components/Header.js
-import '../../scss/homePage-scss/index.scss';
+import '../../scss/homePage-scss/header.scss';
 import '../../scss/patterns.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,9 +21,10 @@ function Header() {
           <img src='/logo.png' height={40} width={40} style={{ borderRadius: '15%' }} alt="logo"></img>
           <p>AccessAble</p>
         </div>
-        <p>Sobre nós</p>
-        <p>Serviços</p>
+        <p className='sbnos'>Sobre nós</p>
+        <p className='serv'>Serviços</p>
       </div>
+
       <div className='login-group'>
         <div 
           className='cadastro-container'
