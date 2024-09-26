@@ -4,20 +4,74 @@ import '../../scss/empresa-scss/minhaArea.scss';
 function MinhaArea() {
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
-  const [isSalarioHidden, setIsSalarioHidden] = useState(false); // Novo estado para o checkbox
+  const [isSalarioHidden, setIsSalarioHidden] = useState(false);
+  const [formData, setFormData] = useState({
+    titulo: '',
+    descricao: '',
+    salario: 0,
+    tipoDeficiencia: '',
+    endereco: '',
+    remota: false,
+    informacoesAdicionais: '',
+    cargo: '',
+    requisitos: '',
+    localizacao: ''
+  });
 
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handlePrevStep = () => {
-    setStep(step - 1);
-  };
+  const handleNextStep = () => setStep(step + 1);
+  const handlePrevStep = () => setStep(step - 1);
 
   const handleCheckboxChange = (e) => {
-    setIsSalarioHidden(e.target.checked); // Atualiza o estado quando o checkbox é marcado/desmarcado
+    setIsSalarioHidden(e.target.checked);
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Verifica se o salário deve ser ocultado
+    const salario = isSalarioHidden ? 0 : parseFloat(formData.salario);
+
+    // Monta o objeto a ser enviado
+    const dataToSend = {
+        titulo: formData.titulo,
+        descricao: formData.descricao,
+        salario: salario,
+        tipoDeficiencia: formData.tipoDeficiencia,
+        endereco: formData.endereco,
+        remota: formData.remota === 'homeoffice', // Ajuste para o valor correto (true/false)
+        informacoesAdicionais: formData.informacoesAdicionais,
+        cargo: formData.cargo,
+        requisitos: 'string',
+        localizacao: 'string'
+    };
+
+    // Log para verificar o JSON que está sendo enviado
+    //console.log('JSON que está sendo enviado:', JSON.stringify(dataToSend));
+
+    try {
+        const response = await fetch('/api/vagas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend),
+            mode: 'cors', // Corrigido de 'no-cors' para 'cors'
+        });
+
+        if (response.ok) {
+            console.log('Vaga criada com sucesso');
+            setShowForm(false);
+        } else {
+            console.log(dataToSend);
+        }
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+    }
+};
+
 
   return (
     <div className='minhaArea'>
@@ -26,7 +80,7 @@ function MinhaArea() {
           <h2>Bom te ver, FinNova Soluções!</h2>
           <p>Comece a usar nossos recursos para encontrar os candidatos ideais</p>
         </div>
-        
+
         <div className='mContainer2'>
           <button className='btnCurriculo'>Buscar novos currículos</button>
           <button className='btnVaga' onClick={() => setShowForm(true)}>Anunciar vaga</button>
@@ -36,14 +90,9 @@ function MinhaArea() {
       {showForm ? (
         <div className='formContainer'>
           <div className='progressBar'>
-              {step > 1 && (
-                <img
-                  src='/arrow.png'
-                  alt='Voltar'
-                  className='arrow'
-                  onClick={handlePrevStep}
-                />
-              )}
+            {step > 1 && (
+              <img src='/arrow.png' alt='Voltar' className='arrow' onClick={handlePrevStep} />
+            )}
             <div className={`step ${step >= 1 ? 'completed' : ''}`}>
               <span>1</span>
               <p>Etapa 1</p>
@@ -59,11 +108,11 @@ function MinhaArea() {
               <form>
                 <label>
                   Título do anúncio:
-                  <input type='text' name='titulo' placeholder='Digite o título do anúncio'/>
+                  <input type='text' name='titulo' placeholder='Digite o título do anúncio' onChange={handleInputChange}/>
                 </label>
                 <label>
                   Tipo de vaga:
-                  <select name='tipo'>
+                  <select name='remota' onChange={handleInputChange}>
                     <option value='presencial'>Presencial</option>
                     <option value='hibrida'>Híbrida</option>
                     <option value='homeoffice'>Home Office</option>
@@ -71,70 +120,51 @@ function MinhaArea() {
                 </label>
                 <label>
                   Tipo de deficiência:
-                  <select name='tipo-def'>
-                    <option value='def-fisica'>Deficiência física</option>
-                    <option value='def-visual'>Deficiência visual</option>
-                    <option value='def-motora'>Deficiência motora</option>
+                  <select name='tipoDeficiencia' onChange={handleInputChange}>
+                    <option value='FISICA'>Deficiência física</option>
+                    <option value='VISUAL'>Deficiência visual</option>
+                    <option value='MOTORA'>Deficiência motora</option>
                   </select>
                 </label>
 
                 <label>
                   Local de trabalho:
-                  <input type='text' name='local' placeholder='Digite um endereço' />
-                </label>
-                <label>
-                  Número de vagas:
-                  <input type='number' name='numeroVagas' />
+                  <input type='text' name='endereco' placeholder='Digite um endereço' onChange={handleInputChange}/>
                 </label>
                 <label>
                   Descrição da vaga:
-                  <textarea name='descricao' className='descricao' ></textarea>
+                  <textarea name='descricao' className='descricao' onChange={handleInputChange}></textarea>
                 </label>
                 <button type='button' onClick={handleNextStep}>Próxima Etapa</button>
               </form>
             </div>
           )}
+
           {step === 2 && (
-  <div className='formStep'>
-    <form>
-      <label>
-        Remuneração mínima:
-        <input type='number' name='remuneracaoMinima' disabled={isSalarioHidden} />
-      </label>
-      <label>
-        Remuneração máxima:
-        <input type='number' name='remuneracaoMaxima' disabled={isSalarioHidden} />
-      </label>
+            <div className='formStep'>
+              <form onSubmit={handleSubmit}>
+                <label>
+                  Remuneração:
+                  <input type='number' name='salario' disabled={isSalarioHidden} onChange={handleInputChange}/>
+                </label>
 
-      <div className='checkboxContainer'>
-        <input
-          type='checkbox'
-          id='naoExibirSalario'
-          name='naoExibirSalario'
-          onChange={handleCheckboxChange}
-        />
-        <label htmlFor='naoExibirSalario'>
-          Não exibir salário (À combinar)
-        </label>
-      </div>
+                <div className='checkboxContainer'>
+                  <input type='checkbox' id='naoExibirSalario' onChange={handleCheckboxChange}/>
+                  <label htmlFor='naoExibirSalario'>Não exibir salário (À combinar)</label>
+                </div>
 
-      <label>
-        Nível de escolaridade:
-        <select name='escolaridade'>
-          <option value='fundamental'>Fundamental</option>
-          <option value='medio'>Médio</option>
-          <option value='superior'>Superior</option>
-        </select>
-      </label>
-      <label>
-        Sobre a empresa:
-        <textarea name='sobreEmpresa' className='sobreEmpresa' placeholder='Dica: fale sobre o ramo de atuação da empresa, tempo de mercado, relação com os colaboradores, etc. Quanto mais informações, mais chances de atrair bons candidatos.'></textarea>
-      </label>
-      <button type='submit'>Enviar</button>
-    </form>
-  </div>
-)}
-
+                <label>
+                  Cargo desejado:
+                  <input type='text' name='cargo' onChange={handleInputChange}/>
+                </label>
+                <label>
+                  Sobre a empresa:
+                  <textarea name='informacoesAdicionais' className='sobreEmpresa' onChange={handleInputChange}></textarea>
+                </label>
+                <button type='submit'>Enviar</button>
+              </form>
+            </div>
+          )}
         </div>
       ) : (
         <div className='mBloco2'>
