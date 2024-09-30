@@ -8,9 +8,14 @@ function MinhasVagas() {
     setActiveTab(tab); // Atualiza o estado com a aba clicada
   };
 
-  // Simulação de dados de vagas (você pode substituir por dados reais)
-  const vagasAbertas = []; // Lista vazia para simular que não há vagas abertas
-  const vagasFechadas = []; // Lista vazia para simular que não há vagas fechadas
+  // Dados fictícios de vagas
+  const vagasAbertas = [
+    { id: 1, titulo: 'Desenvolvedor Front-end', local: 'São Paulo', tipo: 'Remota' },
+    { id: 2, titulo: 'Designer UX/UI', local: 'Rio de Janeiro', tipo: 'Híbrida' }
+  ];
+  const vagasFechadas = [
+    { id: 3, titulo: 'Analista de Dados', local: 'Belo Horizonte', tipo: 'Presencial' }
+  ];
 
   return (
     <div className='minhasVagas'>
@@ -51,8 +56,19 @@ function MinhasVagas() {
                 <button className='btn-anunciar'>Anunciar Vaga</button>
               </div>
             ) : (
-              <p>Estas são suas vagas abertas:</p>
-              // Aqui você pode listar as vagas abertas
+              <div className='vagas-list'>
+                {vagasAbertas.map((vaga) => (
+                  <div key={vaga.id} className='vaga'>
+                    <h4>{vaga.titulo}</h4>
+                    <p>{vaga.local} - {vaga.tipo}</p>
+                    <img 
+                      src='/menuVagas.png' 
+                      alt="menu" 
+                      className='menu-icon' 
+                    />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         )}
@@ -66,8 +82,19 @@ function MinhasVagas() {
                 <button className='btn-anunciar'>Anunciar Vaga</button>
               </div>
             ) : (
-              <p>Estas são suas vagas fechadas:</p>
-              // Aqui você pode listar as vagas fechadas
+              <div className='vagas-list'>
+                {vagasFechadas.map((vaga) => (
+                  <div key={vaga.id} className='vaga'>
+                    <h4>{vaga.titulo}</h4>
+                    <p>{vaga.local} - {vaga.tipo}</p>
+                    <img 
+                      src='/menuVagas.png' 
+                      alt="menu" 
+                      className='menu-icon' 
+                    />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         )}

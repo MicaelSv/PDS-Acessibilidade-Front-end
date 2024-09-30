@@ -31,6 +31,18 @@ function HeaderEmpresa() {
     navigate(path);
   };
 
+  // Função para lidar com o clique no item do dropdown
+  const handleDropdownItemClick = (item) => {
+    if (item === 'Perfil') {
+      navigate('/perfilEmpresa');  // Redireciona para a página de perfil da empresa
+    } else if (item === 'Ajuda') {
+      navigate('/ajuda');  // Exemplo: redireciona para a página de ajuda
+    } else if (item === 'Sair') {
+      // Lógica de logout, redirecionar ou limpar informações do usuário
+      navigate('/login');  // Redireciona para a página de login, por exemplo
+    }
+  };
+
   return (
     <div className='headerEmpresa'>
       <div className='hbloco1'>
@@ -71,9 +83,9 @@ function HeaderEmpresa() {
         />
         {showDropdown && (
           <div className='dropdown-menu'>
-            <p>Perfil</p>
-            <p>Configurações</p>
-            <p>Sair</p>
+            <p onClick={() => handleDropdownItemClick('Perfil')}>Perfil</p>
+            <p onClick={() => handleDropdownItemClick('Ajuda')}>Ajuda</p>
+            <p onClick={() => handleDropdownItemClick('Sair')}>Sair</p>
           </div>
         )}
       </div>

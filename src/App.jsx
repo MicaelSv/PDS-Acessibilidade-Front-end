@@ -13,6 +13,7 @@ import MinhaArea from './components/empresa/MinhaArea.jsx';
 import MinhaAreaCandidato from './components/candidato/MinhaAreaCandidato.jsx';
 import BuscaCurriculos from './components/empresa/BuscaCurriculos.jsx';
 import MinhasVagas from './components/empresa/MinhasVagas.jsx';
+import PerfilEmpresa from './components/empresa/PerfilEmpresa.jsx';
 import './scss/reset.scss';
 import HeaderCandidato from './components/candidato/HeaderCandidato.jsx';
 
@@ -70,6 +71,17 @@ function App() {
                 </>
               } 
             />
+
+            <Route path="/perfilEmpresa" 
+              element={
+                <>
+                  <HeaderEmpresa/>
+                  <PerfilEmpresa/>
+                </>
+              } 
+            />
+
+
           </Routes>
         </div>
         <Footer /> {/* Footer sempre no final */}
