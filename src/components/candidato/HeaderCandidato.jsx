@@ -5,7 +5,7 @@ import '../../scss/candidato-scss/headerCandidato.scss'; // Criar um arquivo SCS
 function HeaderCandidato() {
   const [activePage, setActivePage] = useState('Minha área');
   const [showDropdown, setShowDropdown] = useState(false);
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
 
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
@@ -13,7 +13,7 @@ function HeaderCandidato() {
 
   const handlePageClick = (page, path) => {
     setActivePage(page);
-    navigate(path); // Navega para a rota correspondente
+    navigate(path);
   };
 
   return (

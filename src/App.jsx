@@ -16,6 +16,7 @@ import MinhasVagas from './components/empresa/MinhasVagas.jsx';
 import PerfilEmpresa from './components/empresa/PerfilEmpresa.jsx';
 import './scss/reset.scss';
 import HeaderCandidato from './components/candidato/HeaderCandidato.jsx';
+import Candidaturas from './components/candidato/Candidaturas.jsx';
 
 function App() {  
   return (
@@ -38,10 +39,20 @@ function App() {
               } 
             />
 
-            <Route path="/homeCandidato" element={
+            <Route path="/homeCandidato" 
+              element={
                 <>
                   <HeaderCandidato/>
                   <MinhaAreaCandidato/>
+                </>
+              } 
+            />
+
+            <Route path="/candidaturas" 
+              element={
+                <>
+                  <HeaderCandidato/>
+                  <Candidaturas/>
                 </>
               } 
             />
