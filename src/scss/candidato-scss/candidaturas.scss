@@ -1,0 +1,105 @@
+.candidaturas-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+  
+  .candidaturas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 400px; /* Altura máxima da área de listas */
+    overflow-y: auto;  /* Habilita a barra de rolagem vertical */
+    padding-right: 10px; /* Adiciona espaço para a barra de rolagem */
+  }
+  
+  .candidatura-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .candidatura-info {
+    .vaga-titulo {
+      color: #0066cc;
+      margin-bottom: 5px;
+    }
+  
+    .empresa-nome {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    
+        .icone-empresa {
+          margin-right: 5px;
+          width: 11px; /* Ajuste o tamanho conforme necessário */
+          height: 11px;
+        }
+      }
+  
+    .localizacao {
+      font-size: 0.8em ;
+      color: #999;
+      display: flex;
+      align-items: center;
+
+      .icone-localizacao {
+        margin-right: 6px;
+        width: 11px;
+        height: 11px;
+      }
+
+    }
+  }
+  
+  .etapas-candidatura {
+    display: flex;
+    gap: 10px;
+  
+    .etapa {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      color: #999;
+  
+      &.ativa {
+        background-color: #0066cc;
+        color: #fff;
+      }
+  
+      &.inativa {
+        background-color: #ccc;
+      }
+    }
+  }
+
+  .filtro-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  
+    label {
+      margin-right: 10px;
+      font-size: 1em;
+      color: #333;
+    }
+  
+    select {
+      padding: 5px;
+      font-size: 1em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  }
