@@ -17,6 +17,7 @@ import PerfilEmpresa from './components/empresa/PerfilEmpresa.jsx';
 import './scss/reset.scss';
 import HeaderCandidato from './components/candidato/HeaderCandidato.jsx';
 import Candidaturas from './components/candidato/Candidaturas.jsx';
+import Curriculo from './components/candidato/Curriculo.jsx';
 
 function App() {  
   return (
@@ -56,6 +57,15 @@ function App() {
                 </>
               } 
             />
+
+            <Route path="/curriculo" 
+              element={
+                <>
+                  <HeaderCandidato/>
+                  <Curriculo/>
+                </>
+              } 
+            />  
 
             <Route path="/homeEmpresa" 
               element={
