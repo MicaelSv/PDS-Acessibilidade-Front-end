@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar o hook useNavigate
-import '../../scss/candidato-scss/headerCandidato.scss'; // Criar um arquivo SCSS separado para o header do candidato
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../../scss/candidato-scss/headerCandidato.scss';
 
 function HeaderCandidato() {
   const [activePage, setActivePage] = useState('Minha área');
@@ -16,10 +16,34 @@ function HeaderCandidato() {
     navigate(path);
   };
 
+  const handleProfileClick = () => {
+    navigate('/perfilCandidato');
+    setShowDropdown(false); // Fechar dropdown após o clique
+  };
+
+  const closeDropdown = () => {
+    setShowDropdown(false);
+  };
+
+  // Fechar o dropdown ao clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (event.target.closest('.dropdown-menu') || event.target.closest('.menubar')) {
+        return;
+      }
+      closeDropdown();
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className='headerCandidato'>
       <div className='hbloco1'>
-        <img src="/logo.png" height={40} width={40} style={{ borderRadius: '15%' }} alt='Logotipo' className='imgLogo'></img>
+        <img src="/logo.png" height={40} width={40} style={{ borderRadius: '15%' }} alt='Logotipo' className='imgLogo' />
         <p>AccessAble</p>
       </div>
 
@@ -56,9 +80,8 @@ function HeaderCandidato() {
         />
         {showDropdown && (
           <div className='dropdown-menu'>
-            <p>Perfil</p>
-            <p>Configurações</p>
-            <p>Sair</p>
+            <p onClick={handleProfileClick}>Configurações</p>
+            <p onClick={closeDropdown}>Sair</p>
           </div>
         )}
       </div>

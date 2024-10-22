@@ -39,7 +39,11 @@ function Curriculo() {
     'Estagiário em Desenvolvimento Web na WebSolutions - 2016 a 2018',
   ]);
 
-  const [idiomas, setIdiomas] = useState(['Português - Nativo', 'Inglês - Intermediário']);
+  const [idiomas, setIdiomas] = useState([
+    { nome: 'Português', nivel: 'Nativo' },
+    { nome: 'Inglês', nivel: 'Intermediário' },
+  ]);
+  
 
   const [habilidades, setHabilidades] = useState([
     'HTML, CSS, JavaScript',
@@ -47,10 +51,22 @@ function Curriculo() {
     'Git, GitHub, GitLab',
   ]);
 
+  const [resumo, setResumo] = useState('Inserir aqui o resumo das experiências e qualificações do usuário...');
   const [newCurso, setNewCurso] = useState('');
   const [newExperiencia, setNewExperiencia] = useState('');
-  const [newIdioma, setNewIdioma] = useState('');
   const [newHabilidade, setNewHabilidade] = useState('');
+  const [newIdioma, setNewIdioma] = useState({ nome: '', nivel: '' });
+
+  const addIdioma = () => {
+    if (newIdioma.nome.trim() !== '' && newIdioma.nivel.trim() !== '') {
+      setIdiomas((prev) => [...prev, newIdioma]);
+      setNewIdioma({ nome: '', nivel: '' });
+    }
+  };
+
+  const handleResumoChange = (e) => {
+    setResumo(e.target.value);
+  };  
 
   const handleEdit = (section) => {
     setIsEditing((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -95,13 +111,6 @@ function Curriculo() {
     setNewIdioma(e.target.value);
   };
 
-  const addIdioma = () => {
-    if (newIdioma.trim() !== '') {
-      setIdiomas((prev) => [...prev, newIdioma]);
-      setNewIdioma('');
-    }
-  };
-
   const removeIdioma = (index) => {
     setIdiomas((prev) => prev.filter((_, i) => i !== index));
   };
@@ -130,34 +139,41 @@ function Curriculo() {
       </div>
 
       <div className="sections">
-        <div className="section dados-pessoais">
-          <h2>Dados Pessoais</h2>
-          {isEditing.dadosPessoais ? (
-            <>
-              <p>
-                Idade: <input type="text" name="idade" value={usuario.idade} onChange={handleChange} />
-              </p>
-              <p>
-                Sexo: <input type="text" name="sexo" value={usuario.sexo} onChange={handleChange} />
-              </p>
-              <p>
-                Endereço: <input type="text" name="endereco" value={usuario.endereco} onChange={handleChange} />
-              </p>
-              <p>
-                Celular: <input type="text" name="celular" value={usuario.celular} onChange={handleChange} />
-              </p>
-              <button onClick={() => handleEdit('dadosPessoais')}>Salvar</button>
-            </>
-          ) : (
-            <>
-              <p>Idade: {usuario.idade} anos</p>
-              <p>Sexo: {usuario.sexo}</p>
-              <p>Endereço: {usuario.endereco}</p>
-              <p>Celular: {usuario.celular}</p>
-              <button onClick={() => handleEdit('dadosPessoais')}>Editar</button>
-            </>
-          )}
-        </div>
+      <div className="section dados-pessoais">
+        <h2>Dados Pessoais</h2>
+        {isEditing.dadosPessoais ? (
+          <>
+            <p>
+              <label htmlFor="idade">Idade:</label>
+              <input type="number" id="idade" name="idade" value={usuario.idade} onChange={handleChange} />
+            </p>
+            <p>
+              <label htmlFor="sexo">Sexo:</label>
+              <select id="sexo" name="sexo" value={usuario.sexo} onChange={handleChange}>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </select>
+            </p>
+            <p>
+              <label htmlFor="endereco">Endereço:</label>
+              <input type="text" id="endereco" name="endereco" value={usuario.endereco} onChange={handleChange} />
+            </p>
+            <p>
+              <label htmlFor="celular">Celular:</label>
+              <input type="text" id="celular" name="celular" value={usuario.celular} onChange={handleChange} />
+            </p>
+            <button onClick={() => handleEdit('dadosPessoais')}>Salvar</button>
+          </>
+        ) : (
+          <>
+            <p>Idade: {usuario.idade} anos</p>
+            <p>Sexo: {usuario.sexo}</p>
+            <p>Endereço: {usuario.endereco}</p>
+            <p>Celular: {usuario.celular}</p>
+            <button onClick={() => handleEdit('dadosPessoais')}>Editar</button>
+          </>
+        )}
+      </div>
 
         <div className="section objetivos-profissionais">
           <h2>Objetivos Profissionais</h2>
@@ -184,21 +200,25 @@ function Curriculo() {
       <div className="divider" />
 
       <div className="section resumo-curriculo">
-        <h2>Resumo do Currículo</h2>
-        {isEditing.resumoCurriculo ? (
-          <>
-            <p>
-              Inserir aqui o resumo das experiências e qualificações do usuário...
-            </p>
-            <button onClick={() => handleEdit('resumoCurriculo')}>Salvar</button>
-          </>
-        ) : (
-          <>
-            <p>Inserir aqui o resumo das experiências e qualificações do usuário...</p>
-            <button onClick={() => handleEdit('resumoCurriculo')}>Editar</button>
-          </>
-        )}
+          <h2>Resumo do Currículo</h2>
+          {isEditing.resumoCurriculo ? (
+            <>
+              <textarea
+                value={resumo}
+                onChange={handleResumoChange}
+                rows="5"
+                style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+              />
+              <button onClick={() => handleEdit('resumoCurriculo')}>Salvar</button>
+            </>
+          ) : (
+            <>
+              <p>{resumo}</p>
+              <button onClick={() => handleEdit('resumoCurriculo')}>Editar</button>
+            </>
+          )}
       </div>
+
 
       <div className="divider" />
 
@@ -293,36 +313,48 @@ function Curriculo() {
       <div className="divider" />
 
       <div className="section idiomas">
-        <h2>Idiomas</h2>
-        {isEditing.idiomas ? (
-          <>
-            <ul>
-              {idiomas.map((idioma, index) => (
-                <li key={index}>
-                  {idioma} <button className="remove-button" onClick={() => removeIdioma(index)}>Remover</button>
-                </li>
-              ))}
-            </ul>
-            <input
-              type="text"
-              value={newIdioma}
-              onChange={handleIdiomaChange}
-              placeholder="Adicionar novo idioma"
-            />
-            <button onClick={addIdioma}>Adicionar Idioma</button>
-            <button onClick={() => handleEdit('idiomas')}>Salvar</button>
-          </>
-        ) : (
-          <>
-            <ul>
-              {idiomas.map((idioma, index) => (
-                <li key={index}>{idioma}</li>
-              ))}
-            </ul>
-            <button onClick={() => handleEdit('idiomas')}>Editar</button>
-          </>
-        )}
-      </div>
+  <h2>Idiomas</h2>
+  {isEditing.idiomas ? (
+    <>
+      <ul>
+        {idiomas.map((idioma, index) => (
+          <li key={index}>
+            {idioma.nome} - {idioma.nivel} 
+            <button className="remove-button" onClick={() => removeIdioma(index)}>Remover</button>
+          </li>
+        ))}
+      </ul>
+      <select value={newIdioma.nome} onChange={(e) => setNewIdioma({...newIdioma, nome: e.target.value})}>
+        <option value="">Selecione um idioma</option>
+        <option value="Português">Português</option>
+        <option value="Inglês">Inglês</option>
+        <option value="Espanhol">Espanhol</option>
+        <option value="Francês">Francês</option>
+        <option value="Alemão">Alemão</option>
+        {/* Adicione mais opções de idiomas conforme necessário */}
+      </select>
+      <select value={newIdioma.nivel} onChange={(e) => setNewIdioma({...newIdioma, nivel: e.target.value})}>
+        <option value="">Selecione o nível de fluência</option>
+        <option value="Nativo">Nativo</option>
+        <option value="Intermediário">Intermediário</option>
+        <option value="Iniciante">Iniciante</option>
+        {/* Adicione mais opções de níveis de fluência conforme necessário */}
+      </select>
+      <button onClick={addIdioma}>Adicionar Idioma</button>
+      <button onClick={() => handleEdit('idiomas')}>Salvar</button>
+    </>
+  ) : (
+    <>
+      <ul>
+        {idiomas.map((idioma, index) => (
+          <li key={index}>{idioma.nome} - {idioma.nivel}</li>
+        ))}
+      </ul>
+      <button onClick={() => handleEdit('idiomas')}>Editar</button>
+    </>
+  )}
+</div>
+
 
       <div className="divider" />
 
@@ -362,4 +394,3 @@ function Curriculo() {
 }
 
 export default Curriculo;
-

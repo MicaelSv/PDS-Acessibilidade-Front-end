@@ -11,6 +11,7 @@ import Footer from './components/homePage/Footer';
 import HeaderEmpresa from './components/empresa/headerEmpresa.jsx';
 import MinhaArea from './components/empresa/MinhaArea.jsx';
 import MinhaAreaCandidato from './components/candidato/MinhaAreaCandidato.jsx';
+import PerfilCandidato from './components/candidato/PerfilCandidato.jsx';
 import BuscaCurriculos from './components/empresa/BuscaCurriculos.jsx';
 import MinhasVagas from './components/empresa/MinhasVagas.jsx';
 import PerfilEmpresa from './components/empresa/PerfilEmpresa.jsx';
@@ -63,6 +64,15 @@ function App() {
                 <>
                   <HeaderCandidato/>
                   <Curriculo/>
+                </>
+              } 
+            />
+
+            <Route path="/perfilCandidato" 
+              element={
+                <>
+                  <HeaderCandidato/>
+                  <PerfilCandidato/>
                 </>
               } 
             />  

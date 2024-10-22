@@ -1,28 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../../scss/empresa-scss/perfilEmpresa.scss';
 
-function PerfilEmpresa() {
-  // Estado para armazenar o nome da empresa e o nome temporário durante a edição
-  const [nomeEmpresa, setNomeEmpresa] = useState('FinNova Soluções');
-  const [nomeTemporario, setNomeTemporario] = useState(nomeEmpresa);
+function PerfilEmpresa() { 
+  // Dados fictícios carregados para teste
+  const dadosFicticios = {
+    nomeEmpresa: 'FinNova Soluções',
+    telefone: '(11) 1234-5678',
+    cnpj: '12.345.678/0001-99',
+    email: 'contato@finnova.com',
+    linkedin: 'linkedin.com/company/finnova',
+    localTrabalho: 'Remoto',
+    sobreEmpresa: 'Soluções inovadoras para o mercado financeiro.'
+  };
 
-  // Estados para os outros campos
+  // Estados para armazenar os campos
+  const [nomeEmpresa, setNomeEmpresa] = useState('');
+  const [nomeTemporario, setNomeTemporario] = useState('');
   const [telefone, setTelefone] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [email, setEmail] = useState('');
   const [linkedin, setLinkedin] = useState('');
-
-  // Estados para os campos da aba "Preferências"
   const [localTrabalho, setLocalTrabalho] = useState('');
   const [sobreEmpresa, setSobreEmpresa] = useState('');
 
   // Estado para controlar a aba ativa (perfil ou preferências)
   const [abaAtiva, setAbaAtiva] = useState('perfil');
 
+  // Estado para controlar se os campos são editáveis ou não
+  const [editMode, setEditMode] = useState(false);
+
+  // Carregar os dados fictícios ao montar o componente
+  useEffect(() => {
+    setNomeEmpresa(dadosFicticios.nomeEmpresa);
+    setNomeTemporario(dadosFicticios.nomeEmpresa); // Inicializar o campo temporário com o nome
+    setTelefone(dadosFicticios.telefone);
+    setCnpj(dadosFicticios.cnpj);
+    setEmail(dadosFicticios.email);
+    setLinkedin(dadosFicticios.linkedin);
+    setLocalTrabalho(dadosFicticios.localTrabalho);
+    setSobreEmpresa(dadosFicticios.sobreEmpresa);
+  }, []);
+
   // Função para salvar as alterações
   const handleSave = () => {
     setNomeEmpresa(nomeTemporario);
-    // Aqui você pode adicionar lógica para salvar os outros campos também
+    setEditMode(false); // Desabilitar a edição após salvar
+    // Adicione aqui lógica para salvar os outros campos também
+  };
+
+  // Função para ativar o modo de edição
+  const handleEdit = () => {
+    setEditMode(true);
   };
 
   return (
@@ -58,6 +86,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={nomeTemporario}
                 onChange={(e) => setNomeTemporario(e.target.value)}
+                disabled={!editMode} // Desabilitar se não estiver no modo de edição
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
 
@@ -68,6 +98,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
 
@@ -78,6 +110,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={cnpj}
                 onChange={(e) => setCnpj(e.target.value)}
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
 
@@ -88,6 +122,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
 
@@ -98,6 +134,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={linkedin}
                 onChange={(e) => setLinkedin(e.target.value)}
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
           </>
@@ -114,6 +152,8 @@ function PerfilEmpresa() {
                 type="text"
                 value={localTrabalho}
                 onChange={(e) => setLocalTrabalho(e.target.value)}
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
 
@@ -124,14 +164,21 @@ function PerfilEmpresa() {
                 value={sobreEmpresa}
                 onChange={(e) => setSobreEmpresa(e.target.value)}
                 rows="4"
+                disabled={!editMode}
+                className={editMode ? 'editable' : 'disabled'}
               />
             </div>
           </>
         )}
 
-        <button className="salvarBtn" onClick={handleSave}>
-          Salvar
-        </button>
+        <div className="buttonContainer">
+          <button className="salvarBtn" onClick={handleSave} disabled={!editMode}>
+            Salvar
+          </button>
+          <button className="alterarBtn" onClick={handleEdit} disabled={editMode}>
+            Alterar
+          </button>
+        </div>
       </div>
     </div>
   );
