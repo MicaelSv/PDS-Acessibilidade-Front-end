@@ -21,6 +21,8 @@ function LoginModal({ onClose }) {
         },
         body: JSON.stringify(loginData),
       });
+      const responseText = await response.text(); // Captura a resposta como texto
+      console.log(responseText); // Mostra a resposta
 
       const data = await response.json();
 
