@@ -14,7 +14,7 @@ function LoginModal({ onClose }) {
     const loginData = { email, password };
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('https://api-accessable.vercel.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
