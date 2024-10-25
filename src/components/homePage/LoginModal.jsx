@@ -8,17 +8,42 @@ function LoginModal({ onClose }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Aqui você deve adicionar lógica para verificar credenciais e autenticar o usuário
 
-    if (isCandidate) {
-      navigate('/homeCandidato');
-    } else {
-      navigate('/homeEmpresa');
+    const loginData = { email, password };
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Salva o token no localStorage
+        localStorage.setItem('token', data.token);
+
+        // Verifica o tipo de usuário e redireciona para a página correspondente
+        if (data.role === 'candidato') {
+          navigate('/homeCandidato');
+        } else if (data.role === 'empresa') {
+          navigate('/homeEmpresa');
+        }
+
+        onClose();
+      } else {
+        // Trate o erro de login (ex. senha incorreta ou email não registrado)
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Erro durante o login:', error);
+      alert('Ocorreu um erro. Tente novamente mais tarde.');
     }
-
-    onClose();
   };
 
   return (

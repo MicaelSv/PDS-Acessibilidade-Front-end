@@ -1,22 +1,67 @@
 import { useState } from 'react';
 import '../../scss/homePage-scss/modal.scss';
 
-{/* usar biblioteca de validacao yup*/}
 function Modal({ onClose }) {
+  let newErrors = {};
   const [isStepTwo, setIsStepTwo] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [desiredPosition, setDesiredPosition] = useState('');
+  const [desiredSalary, setDesiredSalary] = useState('');
+  const [sex, setSex] = useState('');
+  const [disability, setDisability] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const [resumeSummary, setResumeSummary] = useState('');
   const [institution, setInstitution] = useState('');
   const [education, setEducation] = useState('');
   const [courses, setCourses] = useState([]);
   const [newCourse, setNewCourse] = useState('');
   const [experiences, setExperiences] = useState([]);
-  const [newExperience, setNewExperience] = useState('');
+  const [newExperience, setNewExperience] = useState({ companyName: '', jobTitle: '', period: '' });
   const [languages, setLanguages] = useState([]);
   const [newLanguage, setNewLanguage] = useState({ language: '', fluency: '' });
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState('');
-  const [sex, setSex] = useState('');
-  const [disability, setDisability] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
+
+  const checkEmail = async (email) => {
+    try {
+      const response = await fetch('/api/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        return data.message;
+      }
+      return null;
+    } catch (error) {
+      console.error('Erro ao verificar email:', error);
+      return 'Erro ao verificar email';
+    }
+  };
+
+  // Estados para erros
+  const [errors, setErrors] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    phone: '',
+    city: '',
+    desiredPosition: '',
+    desiredSalary: '',
+    sex: '',
+    disability: ''
+  });
 
   const addCourse = () => {
     if (newCourse) {
@@ -26,12 +71,12 @@ function Modal({ onClose }) {
   };
 
   const addExperience = () => {
-    if (newExperience) {
+    if (newExperience.companyName && newExperience.jobTitle && newExperience.period) {
       setExperiences([...experiences, newExperience]);
-      setNewExperience('');
+      setNewExperience({ companyName: '', jobTitle: '', period: '' });
     }
   };
-
+  
   const addLanguage = () => {
     if (newLanguage.language && newLanguage.fluency) {
       setLanguages([...languages, newLanguage]);
@@ -51,15 +96,207 @@ function Modal({ onClose }) {
     setState(updatedItems);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isStepTwo) {
-      // Lógica de submissão final
-      onClose();
-    } else {
-      setIsStepTwo(true);
-    }
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
+
+  const validatePassword = (password) => {
+    // Mínimo 8 caracteres, pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validatePhone = (phone) => {
+    // Formato: (XX) XXXXX-XXXX ou XXXXXXXXXXX
+    const phoneRegex = /^(\(\d{2}\)\s?)?\d{5}-?\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateSalary = (salary) => {
+    return salary > 0 && salary <= 999999;
+  };
+
+  const validateForm = () => {
+    //Reset dos erros
+    //let newErrors = {};
+    let isValid = true;
+
+    // Validação do Nome
+    if (!fullName.trim()) {
+      newErrors.fullName = 'Nome é obrigatório';
+      isValid = false;
+    } else if (fullName.trim().length < 3) {
+      newErrors.fullName = 'Nome deve ter pelo menos 3 caracteres';
+      isValid = false;
+    } else if (!/^[a-zA-ZÀ-ÿ\s]*$/.test(fullName)) {
+      newErrors.fullName = 'Nome não pode conter números ou caracteres especiais';
+      isValid = false;
+    }
+
+    // Validação do Email
+    if (!email || email.trim() === '') {
+      newErrors.email = 'Email é obrigatório';
+      isValid = false;
+    } else if (!validateEmail(email)) {
+      newErrors.email = 'Email inválido';
+      isValid = false;
+    }
+
+    // Validação da Senha
+    if (!password) {
+      newErrors.password = 'Senha é obrigatória';
+      isValid = false;
+    } else if (!validatePassword(password)) {
+      newErrors.password = 'A senha deve ter no mínimo 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial';
+      isValid = false;
+    }
+
+    // Validação do Telefone
+    if (!phone) {
+      newErrors.phone = 'Telefone é obrigatório';
+      isValid = false;
+    } else if (!validatePhone(phone)) {
+      newErrors.phone = 'Telefone inválido';
+      isValid = false;
+    }
+
+    // Validação da Cidade
+    if (!city.trim()) {
+      newErrors.city = 'Cidade é obrigatória';
+      isValid = false;
+    }
+
+    // Validação do Cargo Desejado
+    if (!desiredPosition.trim()) {
+      newErrors.desiredPosition = 'Cargo desejado é obrigatório';
+      isValid = false;
+    }
+
+    // Validação do Salário
+    if (!desiredSalary) {
+      newErrors.desiredSalary = 'Salário desejado é obrigatório';
+      isValid = false;
+    } else if (!validateSalary(desiredSalary)) {
+      newErrors.desiredSalary = 'Salário inválido';
+      isValid = false;
+    }
+
+    // Validação do Sexo
+    if (!sex) {
+      newErrors.sex = 'Sexo é obrigatório';
+      isValid = false;
+    }
+
+    // Validação da Deficiência
+    if (!disability) {
+      newErrors.disability = 'Tipo de deficiência é obrigatório';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isStepTwo) {
+      if (validateForm()) {
+        // Verificar email antes de prosseguir
+        const emailErrorMessage = await checkEmail(email);
+        if (emailErrorMessage) {
+          setEmailError(emailErrorMessage);
+          return;
+        } else if (!email || email.trim() === '') {
+          newErrors.email = 'Email é obrigatório';
+          isValid = false;
+        } else if (!validateEmail(email)) {
+          newErrors.email = 'Email inválido';
+          isValid = false;
+        }
+        setIsStepTwo(true);
+      }
+      return;
+    }
+
+    const candidatoData = {
+      nome: fullName,
+      email: email,
+      senha: password,
+      telefone: phone,
+      cidade: city,
+      cargo_desejado: desiredPosition,
+      linkedin: linkedin, // Adicionando o LinkedIn
+      salario_desejado: desiredSalary,
+      sexo: sex,
+      tipo_deficiencia: disability,
+      resumo_curriculo: resumeSummary,
+      instituicao: institution,
+      formacao: education,
+      cursos: courses,
+      experiencias_profissionais: experiences,
+      idiomas: languages.map(lang => ({
+        idioma: lang.language,
+        fluencia: lang.fluency
+      })),
+      habilidades_qualificacoes: skills
+    };
+
+    try {
+      const response = await fetch('/api/register/usuario', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(candidatoData)
+      });
+
+      if (response.ok) {
+        setShowNotification(true); 
+        onClose();
+        const notification = document.createElement('div');
+        notification.className = 'success-notification';
+        notification.textContent = 'Cadastro realizado com sucesso!';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        console.error('Erro no registro:', errorData);
+        // Mostrar mensagem de erro
+        const notification = document.createElement('div');
+        notification.className = 'error-notification';
+        notification.textContent = errorData.message || 'Erro ao realizar cadastro';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      // Mostrar mensagem de erro genérica
+      const notification = document.createElement('div');
+      notification.className = 'error-notification';
+      notification.textContent = 'Erro ao realizar cadastro. Tente novamente.';
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 3000);
+    }
+};
+
+const formatPhone = (value) => {
+    let phone = value.replace(/\D/g, '');
+    
+    if (phone.length <= 11) {
+      phone = phone.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+    }
+    
+    return phone;
+};
 
   return (
     <div className="modal-overlay">
@@ -118,19 +355,30 @@ function Modal({ onClose }) {
                   <div className="dynamic-input">
                     <input
                       type="text"
-                      placeholder="Adicionar experiência"
-                      value={newExperience}
-                      onChange={(e) => setNewExperience(e.target.value)}
+                      placeholder="Nome da Empresa"
+                      value={newExperience.companyName}
+                      onChange={(e) => setNewExperience({ ...newExperience, companyName: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Cargo"
+                      value={newExperience.jobTitle}
+                      onChange={(e) => setNewExperience({ ...newExperience, jobTitle: e.target.value })}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Período"
+                      value={newExperience.period}
+                      onChange={(e) => setNewExperience({ ...newExperience, period: e.target.value })}
                     />
                     <button type="button" onClick={addExperience}>Adicionar</button>
                   </div>
                   {experiences.map((experience, index) => (
                     <div key={index} className="item-list">
-                      {experience}
+                      {experience.companyName} - {experience.jobTitle} - {experience.period}
                       <button type="button" onClick={() => removeItem(setExperiences, experiences, index)}>Remover</button>
                     </div>
                   ))}
-
                   <label>Idiomas</label>
                   <div className="dynamic-input">
                     <select
@@ -144,7 +392,6 @@ function Modal({ onClose }) {
                       <option value="Alemão">Alemão</option>
                       <option value="Italiano">Italiano</option>
                       <option value="Português">Português</option>
-                      {/* Adicione mais opções se necessário */}
                     </select>
                     <select
                       value={newLanguage.fluency}
@@ -184,50 +431,126 @@ function Modal({ onClose }) {
                     </div>
                   ))}
 
-                  <button type="submit" className="submit-button">Finalizar Cadastro</button>
+                  <button className="submit-button" type="submit">Finalizar Registro</button>
                 </form>
               </>
             ) : (
               <>
-    <h2>Registro de Candidato</h2>
-    <form onSubmit={handleSubmit}>
-      <label>Nome e Sobrenome</label>
-      <input type="text" placeholder="Seu nome completo" required />
-      
-      <label>Email</label>
-      <input type="email" placeholder="Seu email" required />
-      
-      <label>Senha</label>
-      <input type="password" placeholder="Sua senha" required />
-      
-      <label>Telefone</label>
-      <input type="tel" placeholder="Seu telefone" required />
-      
-      <label>Cidade</label>
-      <input type="text" placeholder="Sua cidade" required />
-      
-      <label>Cargo Desejado</label>
-      <input type="text" placeholder="Cargo desejado" required />
-      
-      <label>Sexo</label> 
-      <select value={sex} onChange={(e) => setSex(e.target.value)} required>
-        <option value="">Selecione o sexo</option>
-        <option value="masculino">Masculino</option>
-        <option value="feminino">Feminino</option>
-        <option value="outro">Outro</option>
-      </select>
-      
-      <label>Tipo de Deficiência</label>
-      <select value={disability} onChange={(e) => setDisability(e.target.value)} required>
-        <option value="">Selecione o tipo de deficiência</option>
-        <option value="VISUAL">Visual</option>
-        <option value="AUDITIVA">Auditiva</option>
-        <option value="MOTORA">Motora</option>
-       </select>
-      
-      <button type="submit" className="submit-button">Avançar</button>
-    </form>
-  </>
+                <h2>Registro de Candidato</h2>
+                <form onSubmit={handleSubmit}>
+                  <label>Nome Completo</label>
+                  <input
+                    placeholder='Nome do candidato'
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className={errors.fullName ? 'error' : ''}
+                  />
+                  {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailError(''); // Limpa o erro quando o usuário começa a digitar
+                    }}
+                    placeholder="Email"
+                  />
+                  {emailError && <span className="error-message">{emailError}</span>}
+                  {errors.email && <span className="error-message">{errors.email}</span>}
+
+                  <label>Senha</label>
+                  <input
+                    placeholder='Senha do candidato'
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={errors.password ? 'error' : ''}
+                  />
+                  {errors.password && <span className="error-message">{errors.password}</span>}
+
+                  <label>Telefone</label>
+                  <input
+                    placeholder='(XX) XXXX-XXXX ou XXXXXXXXXXX'
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(formatPhone(e.target.value))}
+                    className={errors.phone ? 'error' : ''}
+                    maxLength="15"
+                  />
+                  {errors.phone && <span className="error-message">{errors.phone}</span>}
+
+                  <label>Cidade</label>
+                  <input
+                    placeholder='Digite sua cidade'
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className={errors.city ? 'error' : ''}
+                  />
+                  {errors.city && <span className="error-message">{errors.city}</span>}
+
+                  <label>Cargo Desejado</label>
+                  <input
+                    placeholder='Digite o seu cargo'
+                    type="text"
+                    value={desiredPosition}
+                    onChange={(e) => setDesiredPosition(e.target.value)}
+                    className={errors.desiredPosition ? 'error' : ''}
+                  />
+                  {errors.desiredPosition && <span className="error-message">{errors.desiredPosition}</span>}
+
+                  <label>LinkedIn (Opcional)</label>
+                    <input
+                      placeholder='Cole aqui o link do seu perfil no LinkedIn'
+                      type="url"
+                      value={linkedin}
+                      onChange={(e) => setLinkedin(e.target.value)}
+                    />
+
+                  <label>Salário Desejado</label>
+                  <input
+                    placeholder='Informe o salário desejado'
+                    type="number"
+                    value={desiredSalary}
+                    onChange={(e) => setDesiredSalary(e.target.value)}
+                    className={errors.desiredSalary ? 'error' : ''}
+                  />
+                  {errors.desiredSalary && <span className="error-message">{errors.desiredSalary}</span>}
+
+                  <label>Gênero</label>
+                  <select 
+                    value={sex} 
+                    onChange={(e) => setSex(e.target.value)}
+                    className={errors.sex ? 'error' : ''}
+                  >
+                    <option value="">Selecione o gênero</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                  {errors.sex && <span className="error-message">{errors.sex}</span>}
+
+                  <label>Tipo de Deficiência</label>
+                  <select 
+                    value={disability} 
+                    onChange={(e) => setDisability(e.target.value)}
+                    className={errors.disability ? 'error' : ''}
+                  >
+                    <option value="">Selecione a deficiência</option>
+                    <option value="Visual">Visual</option>
+                    <option value="Auditiva">Auditiva</option>
+                    <option value="Física">Física</option>
+                    <option value="Intelectual">Intelectual</option>
+                    <option value="Múltipla">Múltipla</option>
+                  </select>
+                  {errors.disability && <span className="error-message">{errors.disability}</span>}
+
+                  <button className="submit-button" type="submit">Próxima Etapa</button>
+                </form>
+              </>
             )}
           </div>
         </div>

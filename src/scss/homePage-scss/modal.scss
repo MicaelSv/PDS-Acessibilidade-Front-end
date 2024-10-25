@@ -1,3 +1,66 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  z-index: 1000; // Certifique-se de que o pop-up esteja acima de outros elementos
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.success-notification,
+.error-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 4px;
+  color: white;
+  z-index: 1000;
+  animation: slideIn 0.5s ease-out;
+}
+
+.success-notification {
+  background-color: #4caf50;
+}
+
+.error-notification {
+  background-color: #f44336;
+}
+
+.error-message {
+  color: #f44336 !important;;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  100% {
+    top: 20px;
+    opacity: 1;
+  }
+}
+
+
 .modal-overlay {
   position: fixed;
   top: 0;

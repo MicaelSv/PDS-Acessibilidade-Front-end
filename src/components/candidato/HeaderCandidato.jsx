@@ -25,6 +25,13 @@ function HeaderCandidato() {
     setShowDropdown(false);
   };
 
+  const handleLogout = () => {
+    // Remove o token do localStorage
+    localStorage.removeItem('token');
+    setShowDropdown(false); // Fecha o dropdown
+    navigate('/'); // Redireciona para a home
+  };
+
   // Fechar o dropdown ao clicar fora dele
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -81,7 +88,7 @@ function HeaderCandidato() {
         {showDropdown && (
           <div className='dropdown-menu'>
             <p onClick={handleProfileClick}>Configurações</p>
-            <p onClick={closeDropdown}>Sair</p>
+            <p onClick={handleLogout}>Sair</p>
           </div>
         )}
       </div>

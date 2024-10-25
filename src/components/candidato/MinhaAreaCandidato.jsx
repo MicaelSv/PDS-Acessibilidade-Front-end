@@ -1,8 +1,16 @@
 import React from 'react';
 import '../../scss/candidato-scss/minhaAreaCandidato.scss';
+import { useNavigate } from 'react-router-dom';
 
 
 function MinhaAreaCandidato() {
+
+  const navigate = useNavigate(); // Hook para navegação
+
+  const handleVerMaisVagas = () => {
+    navigate('/buscarVagas');
+  }
+  
   return (
     <div className='AreaCandidato'>
       <h3 className='msg-inicial'>Seja bem vindo, Lucas!</h3>
@@ -76,7 +84,7 @@ function MinhaAreaCandidato() {
             </div>
           </div>
 
-          <button className='ver-mais-btn'>Ver mais vagas</button>
+          <button className='ver-mais-btn' onClick={handleVerMaisVagas}>Ver mais vagas</button>
 
         </div>
 

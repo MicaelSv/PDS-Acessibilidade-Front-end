@@ -1,0 +1,299 @@
+.bv-container {
+  padding: 20px;
+
+  .bv-busca-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: 45px;
+    gap: 10px;
+
+    .bv-filtro-deficiencia {
+      padding: 2px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      background-color: white;
+      cursor: pointer;
+      min-width: 200px;
+      
+      &:focus {
+        border-color: #4CAF50;
+      }
+      
+      option {
+        padding: 10px;
+      }
+    }
+
+    .bv-buscar-btn {
+      // Remova margin-left: -1px se existir
+      border-radius: 5px; // Altere para ter bordas arredondadas em todos os lados
+    }
+
+  }
+
+  .bv-campo-busca {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    //border-radius: 5px 0 0 5px;
+    border-radius: 5px;
+
+    .bv-lupa-icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      margin-left: 10px;
+    }
+
+    input {
+      border: none;
+      padding: 10px;
+      width: 450px;
+      outline: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .bv-buscar-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    margin-left: -1px;
+  }
+
+  .bv-imagem-busca {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    margin-bottom: 10px;
+
+    img {
+      width: 500px;
+      height: 500px;
+    }
+  }
+
+  .bv-lista-vagas {
+    margin-top: 20px;
+    text-align: center;
+
+    p {
+      font-size: 12px;
+      margin-top: -5px;
+      margin-bottom: 12px;
+    }
+
+    .bv-vagas-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .bv-vaga-item {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 12px;
+        margin: 10px 0;
+        width: 100%;
+        max-width: 800px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s, border-color 0.3s;
+        text-align: left;
+        cursor: pointer;
+
+        h3, h4, p {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        h4 {
+          font-weight: normal;
+          margin-top: 4px;
+        }
+
+        p {
+          margin-top: 8px;
+        }
+        
+        .bv-icon {
+          width: 14px;
+          height: 14px;
+        }
+
+        &:hover {
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        &.active {
+          border-color: #0D3878;
+          border-width: 2px;
+        }
+      }
+    }
+  }
+}
+
+.bv-modal-content {
+  background-color: #172451;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  position: relative;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .bv-fechar-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .bv-modal-header {
+    margin-bottom: 20px;
+    width: 100%;
+    
+    .bv-header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      h2 {
+        font-size: 24px;
+        margin: 0;
+      }
+
+      h3 {
+        font-size: 18px;
+        margin: 0;
+      }
+
+      .bv-localidade, .bv-salario {
+        margin: 5px 0;
+      }
+
+      .bv-btn-candidatar {
+        background-color: #CCAB3A;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: fit-content;
+        font-weight: bold;
+
+        &:hover {
+          background-color: #b69834;
+        }
+      }
+    }
+  }
+
+  .bv-modal-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  .bv-modal-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 20px;
+    width: 100%;
+
+    .bv-tab {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.7);
+
+      &.ativa {
+        color: white;
+        border-bottom: 2px solid #CCAB3A;
+      }
+    }
+  }
+
+  .bv-modal-body {
+    padding: 20px 0;
+    width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-y: auto;
+
+    .bv-info-item {
+      margin-bottom: 15px;
+      
+      strong {
+        margin-right: 10px;
+      }
+    }
+
+    .bv-descricao-vaga, .bv-descricao-empresa {
+      h4 {
+        margin-bottom: 10px;
+      }
+
+      p {
+        line-height: 1.6;
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+}
+
+.bv-text-laranja {
+  color: #CCAB3A;
+}
+
+.bv-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

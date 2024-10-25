@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '../../scss/homePage-scss/empresaModal.scss';
 
 function EmpresaModal({ onClose }) {
+  // Estados para armazenar os dados do formulário
   const [nomeEmpresa, setNomeEmpresa] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [numeroFuncionarios, setNumeroFuncionarios] = useState('');
@@ -10,110 +11,102 @@ function EmpresaModal({ onClose }) {
   const [senha, setSenha] = useState('');
   const [telefoneFixo, setTelefoneFixo] = useState('');
   const [sobreEmpresa, setSobreEmpresa] = useState('');
-  const [errors, setErrors] = useState({});
-  const [emailError, setEmailError] = useState('');
+
+  // Estado para erros
+  const [errors, setErrors] = useState({
+    nomeEmpresa: '',
+    cnpj: '',
+    numeroFuncionarios: '',
+    cidade: '',
+    email: '',
+    senha: '',
+    telefoneFixo: ''
+  });
+
+  const formatCnpj = (value) => {
+    // Remove tudo que não é dígito
+    const cnpjValue = value.replace(/\D/g, '');
+
+    // Formatação para CNPJ: XX.XXX.XXX/XXXX-XX
+    if (cnpjValue.length <= 14) {
+      const formattedCnpj = cnpjValue
+        .replace(/^(\d{2})(\d)/, '$1.$2')
+        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+        .replace(/\.(\d{3})(\d)/, '.$1/$2')
+        .replace(/(\d{4})(\d)/, '$1-$2');
+      return formattedCnpj;
+    }
+
+    return value;
+  };
+
+  const validateCnpj = (cnpj) => {
+    return cnpj.length === 18; // Verifique se o CNPJ tem 14 dígitos
+  };
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  const validateCNPJ = (cnpj) => {
-    const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-    return cnpjRegex.test(cnpj);
-  };
-
   const validatePhone = (phone) => {
-    const phoneRegex = /^\(\d{2}\)\s\d{4}-\d{4}$/;
+    const phoneRegex = /^(\(\d{2}\)\s?)?\d{5}-?\d{4}$/; // Formato: (XX) XXXXX-XXXX ou XXXXXXXXXXX
     return phoneRegex.test(phone);
   };
 
-  const checkEmail = async (email) => {
-    try {
-      const response = await fetch('/api/check-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        return data.message;
-      }
-      return null;
-    } catch (error) {
-      console.error('Erro ao verificar email:', error);
-      return 'Erro ao verificar email';
+  const formatPhone = (value) => {
+    let phone = value.replace(/\D/g, '');
+    
+    if (phone.length <= 11) {
+      phone = phone.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
     }
-  };
+    
+    return phone;
+};
 
-  const validateForm = async () => {
-    let newErrors = {};
+  const validateForm = () => {
     let isValid = true;
+    let newErrors = {};
 
+    // Validação do Nome da Empresa
     if (!nomeEmpresa.trim()) {
       newErrors.nomeEmpresa = 'Nome da empresa é obrigatório';
       isValid = false;
     }
 
-    if (!cnpj.trim()) {
-      newErrors.cnpj = 'CNPJ é obrigatório';
-      isValid = false;
-    } else if (!validateCNPJ(cnpj)) {
+    // Validação do CNPJ
+    if (!validateCnpj(cnpj)) {
       newErrors.cnpj = 'CNPJ inválido';
       isValid = false;
     }
 
+    // Validação do Número de Funcionários
     if (!numeroFuncionarios || numeroFuncionarios <= 0) {
       newErrors.numeroFuncionarios = 'Número de funcionários deve ser maior que zero';
       isValid = false;
     }
 
+    // Validação da Cidade
     if (!cidade.trim()) {
       newErrors.cidade = 'Cidade é obrigatória';
       isValid = false;
     }
 
-    if (!email.trim()) {
-      newErrors.email = 'Email é obrigatório';
-      isValid = false;
-    } else if (!validateEmail(email)) {
+    // Validação do Email
+    if (!validateEmail(email)) {
       newErrors.email = 'Email inválido';
       isValid = false;
-    } else {
-      // Verifica se o email já existe
-      const emailErrorMessage = await checkEmail(email);
-      if (emailErrorMessage) {
-        newErrors.email = emailErrorMessage;
-        isValid = false;
-      }
     }
 
+    // Validação da Senha
     if (!senha) {
       newErrors.senha = 'Senha é obrigatória';
       isValid = false;
-    } else if (!validatePassword(senha)) {
-      newErrors.senha = 'A senha deve ter no mínimo 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial';
-      isValid = false;
     }
 
-    if (!telefoneFixo.trim()) {
-      newErrors.telefoneFixo = 'Telefone fixo é obrigatório';
-      isValid = false;
-    } else if (!validatePhone(telefoneFixo)) {
+    // Validação do Telefone Fixo
+    if (!validatePhone(telefoneFixo)) {
       newErrors.telefoneFixo = 'Telefone fixo inválido';
-      isValid = false;
-    }
-
-    if (!sobreEmpresa.trim()) {
-      newErrors.sobreEmpresa = 'Descrição da empresa é obrigatória';
       isValid = false;
     }
 
@@ -123,10 +116,13 @@ function EmpresaModal({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const isValid = await validateForm(); // Aguarda a resolução da função validateForm
-  
-    if (isValid) {
+
+    // Se o formulário for inválido, mostre os erros e retorne
+    if (!isFormValid) {
+      return;
+    }
+
+    if (validateForm()) {
       const empresaData = {
         nome_empresa: nomeEmpresa,
         cnpj,
@@ -137,7 +133,7 @@ function EmpresaModal({ onClose }) {
         telefone_fixo: telefoneFixo,
         sobre_empresa: sobreEmpresa,
       };
-  
+
       try {
         const response = await fetch('/api/register/empresa', {
           method: 'POST',
@@ -146,13 +142,14 @@ function EmpresaModal({ onClose }) {
           },
           body: JSON.stringify(empresaData),
         });
-  
+
         if (response.ok) {
           const notification = document.createElement('div');
           notification.className = 'success-notification';
           notification.textContent = 'Empresa registrada com sucesso!';
           document.body.appendChild(notification);
           onClose();
+
           setTimeout(() => {
             document.body.removeChild(notification);
           }, 3000);
@@ -164,24 +161,6 @@ function EmpresaModal({ onClose }) {
         console.error('Erro na requisição:', error);
       }
     }
-  };
-  
-
-  const formatCNPJ = (value) => {
-    return value
-      .replace(/\D/g, '')
-      .replace(/^(\d{2})(\d)/, '$1.$2')
-      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-      .replace(/\.(\d{3})(\d)/, '.$1/$2')
-      .replace(/(\d{4})(\d)/, '$1-$2')
-      .substr(0, 18);
-  };
-
-  const formatPhone = (value) => {
-    let phone = value.replace(/\D/g, '');
-    phone = phone.replace(/^(\d{2})(\d)/g, '($1) $2');
-    phone = phone.replace(/(\d)(\d{4})$/, '$1-$2');
-    return phone;
   };
 
   return (
@@ -199,19 +178,19 @@ function EmpresaModal({ onClose }) {
               <input 
                 type="text" 
                 placeholder="Digite o nome da empresa" 
+                required 
                 value={nomeEmpresa}
                 onChange={(e) => setNomeEmpresa(e.target.value)} 
-                className={errors.nomeEmpresa ? 'error' : ''}
               />
               {errors.nomeEmpresa && <span className="error-message">{errors.nomeEmpresa}</span>}
 
               <label>CNPJ</label>
               <input 
                 type="text" 
-                placeholder="Digite o CNPJ da empresa" 
+                placeholder="Digite com base nesse exemplo - 58.396.475/0001-29" 
+                required 
                 value={cnpj}
-                onChange={(e) => setCnpj(formatCNPJ(e.target.value))} 
-                className={errors.cnpj ? 'error' : ''}
+                onChange={(e) => setCnpj(formatCnpj(e.target.value))} 
                 maxLength="18"
               />
               {errors.cnpj && <span className="error-message">{errors.cnpj}</span>}
@@ -222,7 +201,8 @@ function EmpresaModal({ onClose }) {
                   <input 
                     type="number" 
                     placeholder="Digite o nº de funcionários" 
-                    className={`empresa-number-funcionarios ${errors.numeroFuncionarios ? 'error' : ''}`}
+                    className='empresa-number-funcionarios' 
+                    required 
                     value={numeroFuncionarios}
                     onChange={(e) => setNumeroFuncionarios(e.target.value)} 
                   />
@@ -233,7 +213,8 @@ function EmpresaModal({ onClose }) {
                   <input 
                     type="text" 
                     placeholder="Digite a cidade" 
-                    className={`empresa-cidade ${errors.cidade ? 'error' : ''}`}
+                    className="empresa-cidade" 
+                    required 
                     value={cidade}
                     onChange={(e) => setCidade(e.target.value)} 
                   />
@@ -247,12 +228,10 @@ function EmpresaModal({ onClose }) {
                   <input 
                     type="email" 
                     placeholder="Digite o email corporativo" 
-                    className={`empresa-email ${errors.email ? 'error' : ''}`}
+                    className='empresa-email' 
+                    required 
                     value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setErrors(prev => ({ ...prev, email: '' }));
-                    } }
+                    onChange={(e) => setEmail(e.target.value)} 
                   />
                   {errors.email && <span className="error-message">{errors.email}</span>}
                 </div>
@@ -261,7 +240,8 @@ function EmpresaModal({ onClose }) {
                   <input 
                     type="password" 
                     placeholder="Digite a senha" 
-                    className={`empresa-senha ${errors.senha ? 'error' : ''}`}
+                    className="empresa-senha" 
+                    required 
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)} 
                   />
@@ -273,21 +253,20 @@ function EmpresaModal({ onClose }) {
               <input 
                 type="text" 
                 placeholder="Digite o telefone fixo" 
+                required 
                 value={telefoneFixo}
-                onChange={(e) => setTelefoneFixo(formatPhone(e.target.value))} 
-                className={errors.telefoneFixo ? 'error' : ''}
-                maxLength="14"
+                onChange={(e) => setTelefoneFixo(formatPhone(e.target.value))}
+                maxLength="15" 
               />
               {errors.telefoneFixo && <span className="error-message">{errors.telefoneFixo}</span>}
 
               <label>Sobre a Empresa</label>
               <input 
                 placeholder="Descreva a empresa" 
+                required 
                 value={sobreEmpresa}
                 onChange={(e) => setSobreEmpresa(e.target.value)} 
-                className={errors.sobreEmpresa ? 'error' : ''}
               />
-              {errors.sobreEmpresa && <span className="error-message">{errors.sobreEmpresa}</span>}
 
               <button type="submit" className="empresa-submit-button">Registrar Empresa</button>
             </form>
