@@ -31,7 +31,7 @@ function Modal({ onClose }) {
 
   const checkEmail = async (email) => {
     try {
-      const response = await fetch('/api/check-email', {
+      const response = await fetch('https://api-accessable.vercel.app/check-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -245,7 +245,7 @@ function Modal({ onClose }) {
     };
 
     try {
-      const response = await fetch('/api/register/usuario', {
+      const response = await fetch('https://api-accessable.vercel.app/register/usuario', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
