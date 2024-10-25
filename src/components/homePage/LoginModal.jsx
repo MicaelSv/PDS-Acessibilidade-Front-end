@@ -13,39 +13,39 @@ function LoginModal({ onClose }) {
 
     const loginData = { email, password };
 
-    try {
-      const response = await fetch('https://api-accessable.vercel.app/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(loginData),
-      });
-      const responseText = await response.text(); // Captura a resposta como textsso
-      console.log(responseText); // Mostra a resposta
+try {
+  const response = await fetch('https://api-accessable.vercel.app/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(loginData),
+  });
 
-      const data = await response.json();
+  // Aqui, use apenas response.json() para ler a resposta como JSON
+  const data = await response.json();
 
-      if (response.ok) {
-        // Salva o token no localStorage
-        localStorage.setItem('token', data.token);
+  if (response.ok) {
+    // Salva o token no localStorage
+    localStorage.setItem('token', data.token);
 
-        // Verifica o tipo de usuário e redireciona para a página correspondente
-        if (data.role === 'candidato') {
-          navigate('/homeCandidato');
-        } else if (data.role === 'empresa') {
-          navigate('/homeEmpresa');
-        }
-
-        onClose();
-      } else {
-        // Trate o erro de login (ex. senha incorreta ou email não registrado)
-        alert(data.message);
-      }
-    } catch (error) {
-      console.error('Erro durante o login:', error);
-      alert('Ocorreu um erro. Tente novamente mais tarde.');
+    // Verifica o tipo de usuário e redireciona para a página correspondente
+    if (data.role === 'candidato') {
+      navigate('/homeCandidato');
+    } else if (data.role === 'empresa') {
+      navigate('/homeEmpresa');
     }
+
+    onClose();
+  } else {
+    // Trate o erro de login (ex. senha incorreta ou email não registrado)
+    alert(data.message);
+  }
+} catch (error) {
+  console.error('Erro durante o login:', error);
+  alert('Ocorreu um erro. Tente novamente mais tarde.');
+}
+
   };
 
   return (
