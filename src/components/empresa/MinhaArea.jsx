@@ -14,8 +14,8 @@ function MinhaArea() {
     remota: false,
     informacoesAdicionais: '',
     cargo: '',
-    requisitos: '',
-    localizacao: ''
+    tipoContrato: '',
+    quantidadeVagas: ''
   });
 
   const handleNextStep = () => setStep(step + 1);
@@ -38,40 +38,39 @@ function MinhaArea() {
 
     // Monta o objeto a ser enviado
     const dataToSend = {
-        titulo: formData.titulo,
-        descricao: formData.descricao,
-        salario: salario,
-        tipoDeficiencia: formData.tipoDeficiencia,
-        endereco: formData.endereco,
-        remota: formData.remota === 'homeoffice', // Ajuste para o valor correto (true/false)
-        informacoesAdicionais: formData.informacoesAdicionais,
-        cargo: formData.cargo,
-        requisitos: 'string',
-        localizacao: 'string'
+      titulo: formData.titulo,
+      descricao: formData.descricao,
+      salario: salario,
+      tipoDeficiencia: formData.tipoDeficiencia,
+      endereco: formData.endereco,
+      remota: formData.remota === 'homeoffice', // Ajuste para o valor correto (true/false)
+      informacoesAdicionais: formData.informacoesAdicionais,
+      cargo: formData.cargo,
+      tipoContrato: formData.tipoContrato,
+      quantidadeVagas: formData.quantidadeVagas
     };
 
     // Log para verificar o JSON que está sendo enviado
-    //console.log('JSON que está sendo enviado:', JSON.stringify(dataToSend));
+    console.log('JSON que está sendo enviado:', JSON.stringify(dataToSend));
 
     try {
-        const response = await fetch('/api/vagas', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToSend),
-            mode: 'cors', // Corrigido de 'no-cors' para 'cors'
-        });
+      const response = await fetch('/api/vagas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSend),
+        mode: 'cors', // Corrigido de 'no-cors' para 'cors'
+      });
 
-        if (response.ok) {
-            console.log('Vaga criada com sucesso');
-            setShowForm(false);
-        } else {
-            console.log(dataToSend);
-        }
+      if (response.ok) {
+        console.log('Vaga criada com sucesso');
+        setShowForm(false);
+      } else {
+        console.log('Erro ao criar vaga:', dataToSend);
+      }
     } catch (error) {
-        console.error('Erro na requisição:', error);
+      console.error('Erro na requisição:', error);
     }
-};
-
+  };
 
   return (
     <div className='minhaArea'>
@@ -108,7 +107,7 @@ function MinhaArea() {
               <form>
                 <label>
                   Título do anúncio:
-                  <input type='text' name='titulo' placeholder='Digite o título do anúncio' onChange={handleInputChange}/>
+                  <input type='text' name='titulo' placeholder='Digite o título do anúncio' onChange={handleInputChange} />
                 </label>
                 <label>
                   Tipo de vaga:
@@ -119,17 +118,39 @@ function MinhaArea() {
                   </select>
                 </label>
                 <label>
+                  Tipo de contrato:
+                  <select name='tipoContrato' onChange={handleInputChange}>
+                    <option value='clt'>CLT</option>
+                    <option value='pj'>PJ</option>
+                    <option value='estagio'>Estágio</option>
+                  </select>
+                </label>
+
+                <label>
+                  Quantidade de vagas:
+                  <input
+                    type='number'
+                    name='quantidadeVagas'
+                    onChange={handleInputChange}
+                    min='1'
+                    placeholder='Informe a quantidade de vagas'
+                  />
+                </label>
+
+                <label>
                   Tipo de deficiência:
                   <select name='tipoDeficiencia' onChange={handleInputChange}>
                     <option value='FISICA'>Deficiência física</option>
                     <option value='VISUAL'>Deficiência visual</option>
                     <option value='MOTORA'>Deficiência motora</option>
+                    <option value='AUDITIVA'>Deficiência auditiva</option>
+                    <option value='MULTIPLA'>Deficiência multipla</option>
                   </select>
                 </label>
 
                 <label>
                   Local de trabalho:
-                  <input type='text' name='endereco' placeholder='Digite um endereço' onChange={handleInputChange}/>
+                  <input type='text' name='endereco' placeholder='Digite um endereço' onChange={handleInputChange} />
                 </label>
                 <label>
                   Descrição da vaga:
@@ -145,21 +166,17 @@ function MinhaArea() {
               <form onSubmit={handleSubmit}>
                 <label>
                   Remuneração:
-                  <input type='number' name='salario' disabled={isSalarioHidden} onChange={handleInputChange}/>
+                  <input type='number' name='salario' disabled={isSalarioHidden} onChange={handleInputChange} />
                 </label>
 
                 <div className='checkboxContainer'>
-                  <input type='checkbox' id='naoExibirSalario' onChange={handleCheckboxChange}/>
+                  <input type='checkbox' id='naoExibirSalario' onChange={handleCheckboxChange} />
                   <label htmlFor='naoExibirSalario'>Não exibir salário (À combinar)</label>
                 </div>
 
                 <label>
                   Cargo desejado:
-                  <input type='text' name='cargo' onChange={handleInputChange}/>
-                </label>
-                <label>
-                  Sobre a empresa:
-                  <textarea name='informacoesAdicionais' className='sobreEmpresa' onChange={handleInputChange}></textarea>
+                  <input type='text' name='cargo' onChange={handleInputChange} />
                 </label>
                 <button type='submit'>Enviar</button>
               </form>

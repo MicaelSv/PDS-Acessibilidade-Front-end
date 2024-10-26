@@ -540,11 +540,10 @@ const formatPhone = (value) => {
                     className={errors.disability ? 'error' : ''}
                   >
                     <option value="">Selecione a deficiência</option>
-                    <option value="Visual">Visual</option>
-                    <option value="Auditiva">Auditiva</option>
-                    <option value="Física">Física</option>
-                    <option value="Intelectual">Intelectual</option>
-                    <option value="Múltipla">Múltipla</option>
+                    <option value="VISUAL">Visual</option>
+                    <option value="AUDITIVA">Auditiva</option>
+                    <option value="FISICA">Física</option>
+                    <option value="MULTIPLA">Múltipla</option>
                   </select>
                   {errors.disability && <span className="error-message">{errors.disability}</span>}
 
