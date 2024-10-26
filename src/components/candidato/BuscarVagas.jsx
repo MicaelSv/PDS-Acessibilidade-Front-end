@@ -21,7 +21,7 @@ function BuscarVagas() {
   const handleBuscarVagas = async () => {
     if (query.trim() !== '') {
       try {
-        const response = await axios.get('/api/buscar-vagas', {
+        const response = await axios.get('https://api-accessable.vercel.app/api/buscar-vagas', {
           params: {
             query: query,
             filtroDeficiencia: filtroDeficiencia
@@ -67,7 +67,7 @@ function BuscarVagas() {
         return;
       }
   
-      const response = await axios.post('/api/candidatar', {
+      const response = await axios.post('https://api-accessable.vercel.app/api/candidatar', {
         vaga_id: vagaSelecionada.id
       }, {
         headers: {
