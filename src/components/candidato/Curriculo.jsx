@@ -19,7 +19,7 @@ function Curriculo() {
     cargo: 'Desenvolvedor Front-end',
     idade: 35,
     sexo: 'Masculino',
-    endereco: 'Rua dos Pinheiros, 123 - São Paulo, SP',
+    endereco: 'São Paulo, SP',
     celular: '(11) 98765-4321',
     salarioDesejado: 'R$ 5.000,00',
   });
@@ -167,7 +167,7 @@ function Curriculo() {
         ) : (
           <>
             <p>Idade: {usuario.idade} anos</p>
-            <p>Sexo: {usuario.sexo}</p>
+            <p>Gênero: {usuario.sexo}</p>
             <p>Endereço: {usuario.endereco}</p>
             <p>Celular: {usuario.celular}</p>
             <button onClick={() => handleEdit('dadosPessoais')}>Editar</button>

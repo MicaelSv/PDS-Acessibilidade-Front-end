@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../../scss/candidato-scss/buscarVagas.scss';
+import axios from 'axios';
 
 function BuscarVagas() {
   const [buscaFeita, setBuscaFeita] = useState(false);
@@ -10,66 +11,29 @@ function BuscarVagas() {
   const [vagaSelecionada, setVagaSelecionada] = useState(null);
   const [abaAtiva, setAbaAtiva] = useState('vaga');
   const [vagasFiltradas, setVagasFiltradas] = useState([]);
+  const [candidaturaStatus, setCandidaturaStatus] = useState('');
+  const [notificacao, setNotificacao] = useState({ 
+    visivel: false, 
+    mensagem: '', 
+    tipo: '' 
+  });
 
-  const vagas = [
-    {
-      titulo: "Desenvolvedor Frontend",
-      empresa: "Tech Solutions",
-      localidade: "São Paulo - Presencial",
-      inclusao: "Vaga destinada à todos os tipos de deficiência",
-      salario: "R$ 5.000,00",
-      quantidadeVagas: 2,
-      tipoContrato: "CLT",
-      descricaoVaga: "Desenvolvimento de interfaces utilizando React, participação em projetos inovadores...",
-      descricaoEmpresa: "A Tech Solutions é uma empresa líder no mercado de desenvolvimento de software...",
-      quantidadeFuncionarios: "50-100 funcionários"
-    },
-    {
-      titulo: "Analista de Marketing",
-      empresa: "Marketing Pro",
-      localidade: "Rio de Janeiro - Híbrido",
-      inclusao: "Vaga destinada à pessoas com deficiência auditiva",
-      salario: "R$ 4.500,00",
-      quantidadeVagas: 1,
-      tipoContrato: "CLT",
-      descricaoVaga: "Desenvolvimento de estratégias de marketing digital, gestão de campanhas...",
-      descricaoEmpresa: "A Marketing Pro é uma agência especializada em marketing digital...",
-      quantidadeFuncionarios: "20-50 funcionários"
-    },
-    {
-      titulo: "Designer Gráfico",
-      empresa: "Creative Minds",
-      localidade: "Belo Horizonte - Home Office",
-      inclusao: "Vaga destinada à pessoas com deficiência visual",
-      salario: "A combinar",
-      quantidadeVagas: 3,
-      tipoContrato: "PJ",
-      descricaoVaga: "Criação de peças gráficas, identidade visual, materiais para redes sociais...",
-      descricaoEmpresa: "A Creative Minds é um estúdio de design reconhecido nacionalmente...",
-      quantidadeFuncionarios: "10-20 funcionários"
-    },
-  ];
-
-  const handleBuscarVagas = () => {
+  const handleBuscarVagas = async () => {
     if (query.trim() !== '') {
-      const vagasFiltradas = vagas.filter(vaga => {
-        const matchQuery = vaga.titulo.toLowerCase().includes(query.toLowerCase()) ||
-                          vaga.empresa.toLowerCase().includes(query.toLowerCase());
-        
-        if (filtroDeficiencia === 'todas') {
-          return matchQuery;
-        }
-        
-        if (vaga.inclusao.toLowerCase().includes('todos os tipos')) {
-          return matchQuery;
-        }
-        
-        return matchQuery && vaga.inclusao.toLowerCase().includes(filtroDeficiencia);
-      });
+      try {
+        const response = await axios.get('/api/buscar-vagas', {
+          params: {
+            query: query,
+            filtroDeficiencia: filtroDeficiencia
+          }
+        });
 
-      setVagasFiltradas(vagasFiltradas);
-      setBuscaFeita(true);
-      setTermoBuscado(query);
+        setVagasFiltradas(response.data);
+        setBuscaFeita(true);
+        setTermoBuscado(query);
+      } catch (error) {
+        console.error("Erro ao buscar vagas:", error);
+      }
     }
   };
 
@@ -82,10 +46,82 @@ function BuscarVagas() {
     setModalAberto(false);
     setVagaSelecionada(null);
     setAbaAtiva('vaga');
+    setCandidaturaStatus('');
+  };
+
+  const handleCandidatura = async () => {
+    if (!vagaSelecionada || !vagaSelecionada.id) {
+      console.error('ID da vaga não encontrado');
+      return;
+    }
+  
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setNotificacao({
+          visivel: true,
+          mensagem: 'Você precisa estar logado para se candidatar!',
+          tipo: 'erro'
+        });
+        return;
+      }
+  
+      const response = await axios.post('/api/candidatar', {
+        vaga_id: vagaSelecionada.id
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.status === 201) {
+        fecharModal();
+        setNotificacao({
+          visivel: true,
+          mensagem: 'Candidatura realizada com sucesso!',
+          tipo: 'sucesso'
+        });
+        
+        // Fechar a notificação automaticamente após 3 segundos
+        setTimeout(() => {
+          setNotificacao({ ...notificacao, visivel: false });
+        }, 3000);
+      }
+    } catch (error) {
+      if (error.response?.status === 409) {
+        setNotificacao({
+          visivel: true,
+          mensagem: 'Você já se candidatou para esta vaga!',
+          tipo: 'erro'
+        });
+      } else {
+        setNotificacao({
+          visivel: true,
+          mensagem: 'Erro ao realizar candidatura. Tente novamente.',
+          tipo: 'erro'
+        });
+      }
+      console.error('Erro na candidatura:', error);
+    }
   };
 
   return (
     <div className='bv-container'>
+
+      {/* Componente de notificação */}
+      {notificacao.visivel && (
+        <div className={`notificacao-popup ${notificacao.tipo}`}>
+          <div className="notificacao-conteudo">
+            <span>{notificacao.mensagem}</span>
+            <button onClick={() => setNotificacao({ ...notificacao, visivel: false })}>
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="bv-busca-container">
         <div className="bv-campo-busca">
           <img className="bv-lupa-icon" src="/lupa-buscarVagas.png" alt="Ícone de lupa" />
@@ -151,14 +187,19 @@ function BuscarVagas() {
             <button className="bv-fechar-modal" onClick={fecharModal}>×</button>
             
             <div className="bv-modal-header">
-              <div className="bv-header-info">
-                <h2>{vagaSelecionada.titulo}</h2>
-                <h3>{vagaSelecionada.empresa}</h3>
-                <p className="bv-localidade">{vagaSelecionada.localidade}</p>
-                <p className="bv-salario">{vagaSelecionada.salario}</p>
-                <button className="bv-btn-candidatar">Candidatar-me</button>
-              </div>
+            <div className="bv-header-info">
+              <h2>{vagaSelecionada.titulo}</h2>
+              <h3>{vagaSelecionada.empresa}</h3>
+              <p className="bv-localidade">{vagaSelecionada.localidade}</p>
+              <p className="bv-salario">{vagaSelecionada.salario}</p>
+              <button 
+              className="bv-btn-candidatar"
+              onClick={handleCandidatura} // Removido o parâmetro
+        >
+  Candidatar-me
+</button>
             </div>
+          </div>
 
             <div className="bv-modal-container">
               <div className="bv-modal-tabs">

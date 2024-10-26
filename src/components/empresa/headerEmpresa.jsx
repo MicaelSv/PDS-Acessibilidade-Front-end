@@ -31,6 +31,13 @@ function HeaderEmpresa() {
     navigate(path);
   };
 
+  const handleLogout = () => {
+    // Remove o token do localStorage
+    localStorage.removeItem('token');
+    setShowDropdown(false); // Fecha o dropdown
+    navigate('/'); // Redireciona para a home
+  };
+
   // Função para lidar com o clique no item do dropdown
   const handleDropdownItemClick = (item) => {
     if (item === 'Perfil') {
@@ -85,7 +92,7 @@ function HeaderEmpresa() {
           <div className='dropdown-menu'>
             <p onClick={() => handleDropdownItemClick('Perfil')}>Perfil</p>
             <p onClick={() => handleDropdownItemClick('Ajuda')}>Ajuda</p>
-            <p onClick={() => handleDropdownItemClick('Sair')}>Sair</p>
+            <p onClick={() => handleLogout('Sair')}>Sair</p>
           </div>
         )}
       </div>

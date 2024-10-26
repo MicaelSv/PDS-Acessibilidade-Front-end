@@ -9,13 +9,12 @@ function MinhaArea() {
     titulo: '',
     descricao: '',
     salario: 0,
-    tipoDeficiencia: '',
+    tipoDeficiencia: 'TODAS',
     endereco: '',
-    remota: false,
-    informacoesAdicionais: '',
+    remota: 'Presencial',
     cargo: '',
-    tipoContrato: '',
-    quantidadeVagas: ''
+    tipoContrato: 'CLT',
+    quantidadeVagas: 1
   });
 
   const handleNextStep = () => setStep(step + 1);
@@ -27,7 +26,11 @@ function MinhaArea() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const newValue = name === 'quantidadeVagas' ? parseInt(value, 10) : value;
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
+
+    console.log(`Campo ${name}:`, value);
+    console.log(`Campo ${name}:`, newValue);
   };
 
   const handleSubmit = async (e) => {
@@ -36,15 +39,13 @@ function MinhaArea() {
     // Verifica se o salário deve ser ocultado
     const salario = isSalarioHidden ? 0 : parseFloat(formData.salario);
 
-    // Monta o objeto a ser enviado
     const dataToSend = {
       titulo: formData.titulo,
       descricao: formData.descricao,
       salario: salario,
       tipoDeficiencia: formData.tipoDeficiencia,
       endereco: formData.endereco,
-      remota: formData.remota === 'homeoffice', // Ajuste para o valor correto (true/false)
-      informacoesAdicionais: formData.informacoesAdicionais,
+      remota: formData.remota,
       cargo: formData.cargo,
       tipoContrato: formData.tipoContrato,
       quantidadeVagas: formData.quantidadeVagas
@@ -54,9 +55,13 @@ function MinhaArea() {
     console.log('JSON que está sendo enviado:', JSON.stringify(dataToSend));
 
     try {
-      const response = await fetch('/api/vagas', {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch('/api/addVaga', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 
+                   'Authorization': `Bearer ${token}`     
+        },
         body: JSON.stringify(dataToSend),
         mode: 'cors', // Corrigido de 'no-cors' para 'cors'
       });
@@ -112,17 +117,17 @@ function MinhaArea() {
                 <label>
                   Tipo de vaga:
                   <select name='remota' onChange={handleInputChange}>
-                    <option value='presencial'>Presencial</option>
-                    <option value='hibrida'>Híbrida</option>
-                    <option value='homeoffice'>Home Office</option>
+                    <option value='Presencial'>Presencial</option>
+                    <option value='Híbrida'>Híbrida</option>
+                    <option value='HomeOffice'>Home Office</option>
                   </select>
                 </label>
                 <label>
                   Tipo de contrato:
                   <select name='tipoContrato' onChange={handleInputChange}>
-                    <option value='clt'>CLT</option>
-                    <option value='pj'>PJ</option>
-                    <option value='estagio'>Estágio</option>
+                    <option value='CLT'>CLT</option>
+                    <option value='PJ'>PJ</option>
+                    <option value='ESTÁGIO'>Estágio</option>
                   </select>
                 </label>
 
@@ -140,9 +145,9 @@ function MinhaArea() {
                 <label>
                   Tipo de deficiência:
                   <select name='tipoDeficiencia' onChange={handleInputChange}>
+                    <option value='TODAS'>Todas</option>
                     <option value='FISICA'>Deficiência física</option>
                     <option value='VISUAL'>Deficiência visual</option>
-                    <option value='MOTORA'>Deficiência motora</option>
                     <option value='AUDITIVA'>Deficiência auditiva</option>
                     <option value='MULTIPLA'>Deficiência multipla</option>
                   </select>
