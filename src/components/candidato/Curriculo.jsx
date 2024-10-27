@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../scss/candidato-scss/curriculo.scss';
 
 function Curriculo() {
+
+  const [nome, setNome] = useState('');
+
+  useEffect(() => {
+    const nomeUsuario = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+    if (nomeUsuario) {
+      setNome(nomeUsuario);
+    }
+  }, []);
+
   const [isEditing, setIsEditing] = useState({
     dadosPessoais: false,
     objetivosProfissionais: false,
@@ -133,7 +143,7 @@ function Curriculo() {
   return (
     <div className="curriculo-container">
       <div className="header">
-        <h1>{usuario.nome}</h1>
+        <h1 className="nomeUsuario">{nome || 'Usuário'}</h1>
         <p>{usuario.email}</p>
         <p>{usuario.cargo}</p>
       </div>

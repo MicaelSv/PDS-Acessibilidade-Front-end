@@ -20,8 +20,13 @@ import HeaderCandidato from './components/candidato/HeaderCandidato.jsx';
 import Candidaturas from './components/candidato/Candidaturas.jsx';
 import Curriculo from './components/candidato/Curriculo.jsx';
 import BuscarVagas from './components/candidato/BuscarVagas.jsx';
+import { useRef } from 'react';
 
 function App() {  
+
+  const servicosRef = useRef(null);
+  const sobreNosRef = useRef(null);
+
   return (
     <Router>
       <div className="app-container"> {/* Classe principal que controla o layout */}
@@ -31,13 +36,13 @@ function App() {
               path="/" 
               element={
                 <>
-                  <Header />
+                  <Header servicosRef={servicosRef} sobreNosRef={sobreNosRef}/>
                   <Hero />
-                  <Content />
+                  <Content ref={sobreNosRef} />
                   <Content2 />
                   <Content3 />
                   <Content4 />
-                  <Content5 />
+                  <Content5 ref={servicosRef}/>
                 </>
               } 
             />

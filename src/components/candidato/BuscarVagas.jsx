@@ -189,15 +189,15 @@ function BuscarVagas() {
             <div className="bv-modal-header">
   <div className="bv-header-info">
     <h2 className="bv-modal-titulo">
-      <img src="/icone-vaga.png" alt="Ícone da vaga" className="bv-icon" />
+      <img src="/mala-branca.png" alt="Ícone da vaga" className="bv-icon" />
       <span>{vagaSelecionada.titulo}</span>
     </h2>
     <h3 className="bv-modal-empresa">
-      <img src="/icone-empresa.png" alt="Ícone da empresa" className="bv-icon" />
+      <img src="/predio-branco.png" alt="Ícone da empresa" className="bv-icon" />
       <span>{vagaSelecionada.empresa}</span>
     </h3>
     <p className="bv-modal-localidade">
-      <img src="/icone-local.png" alt="Ícone da localidade" className="bv-icon" />
+      <img src="/ping-branco.png" alt="Ícone da localidade" className="bv-icon" />
       <span>{vagaSelecionada.localidade}</span>
     </p>
     <p className="bv-salario">{vagaSelecionada.salario}</p>
@@ -245,7 +245,7 @@ function BuscarVagas() {
                 ) : (
                   <div className="bv-conteudo-empresa">
                     <div className="bv-info-item">
-                      <strong className="bv-text-laranja">Porte da empresa:</strong>
+                      <strong className="bv-text-laranja">Porte da empresa (funcionários):</strong>
                       <span>{vagaSelecionada.quantidadeFuncionarios}</span>
                     </div>
                     <div className="bv-descricao-empresa">

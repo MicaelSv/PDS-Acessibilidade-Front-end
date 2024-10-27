@@ -188,20 +188,28 @@
     .bv-header-info {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
 
       h2 {
-        font-size: 24px;
+        font-size: 20px;
         margin: 0;
       }
 
       h3 {
-        font-size: 18px;
+        font-size: 15px;
         margin: 0;
+      }
+
+      p{
+        font-size: 14px;
       }
 
       .bv-localidade, .bv-salario {
         margin: 5px 0;
+      }
+
+      .bv-icon{
+        margin-right: 2px;
       }
 
       .bv-btn-candidatar {

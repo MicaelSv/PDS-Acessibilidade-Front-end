@@ -6,6 +6,14 @@ function HeaderCandidato() {
   const [activePage, setActivePage] = useState('Minha área');
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const [usuarioNome, setUsuarioNome] = useState(''); // Estado para armazenar o nome do usuário
+
+  useEffect(() => {
+    const nome = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+    if (nome) {
+      setUsuarioNome(nome);
+    }
+  }, []);
 
   const handleDropdownClick = () => {
     setShowDropdown(!showDropdown);
@@ -76,7 +84,7 @@ function HeaderCandidato() {
       </div>
 
       <div className='hbloco3'>
-        <p>Lucas</p>
+      <p>{usuarioNome || 'Usuário'}</p> 
         <img 
           src="/menubar.png" 
           height={18} 

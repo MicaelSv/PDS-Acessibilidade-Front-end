@@ -1,10 +1,11 @@
 import '../../scss/homePage-scss/content.scss';
+import { forwardRef } from 'react';
 
-function Content() {
+const Content = forwardRef((props, ref) => {
   return (
-    <section className="section-1">
+    <section ref={ref} className="section-1">
       <div className="left">
-        <img src="/quem_somos.png" height={400} width={500}></img>
+        <img src="/quem_somos.png" height={400} width={500} alt="Quem somos" />
       </div>
       <div className="right-text">
         <div className="text-content">
@@ -18,10 +19,8 @@ function Content() {
           <p>Acreditamos que a diversidade é a chave para a inovação!</p>
         </div>
       </div>
-
-      
     </section>
   );
-}
+});
 
 export default Content;

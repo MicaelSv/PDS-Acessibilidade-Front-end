@@ -28,6 +28,7 @@ try {
   if (response.ok) {
     // Salva o token no localStorage
     localStorage.setItem('token', data.token);
+    localStorage.setItem('nomeUsuario', data.nome); // Armazena o nome
 
     // Verifica o tipo de usuário e redireciona para a página correspondente
     if (data.role === 'candidato') {

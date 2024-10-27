@@ -2,16 +2,6 @@ import { useState, useEffect } from 'react';
 import '../../scss/empresa-scss/perfilEmpresa.scss';
 
 function PerfilEmpresa() { 
-  // Dados fictícios carregados para teste
-  const dadosFicticios = {
-    nomeEmpresa: 'FinNova Soluções',
-    telefone: '(11) 1234-5678',
-    cnpj: '12.345.678/0001-99',
-    email: 'contato@finnova.com',
-    linkedin: 'linkedin.com/company/finnova',
-    localTrabalho: 'Remoto',
-    sobreEmpresa: 'Soluções inovadoras para o mercado financeiro.'
-  };
 
   // Estados para armazenar os campos
   const [nomeEmpresa, setNomeEmpresa] = useState('');
@@ -19,7 +9,6 @@ function PerfilEmpresa() {
   const [telefone, setTelefone] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [email, setEmail] = useState('');
-  const [linkedin, setLinkedin] = useState('');
   const [localTrabalho, setLocalTrabalho] = useState('');
   const [sobreEmpresa, setSobreEmpresa] = useState('');
 
@@ -29,16 +18,19 @@ function PerfilEmpresa() {
   // Estado para controlar se os campos são editáveis ou não
   const [editMode, setEditMode] = useState(false);
 
-  // Carregar os dados fictícios ao montar o componente
   useEffect(() => {
-    setNomeEmpresa(dadosFicticios.nomeEmpresa);
-    setNomeTemporario(dadosFicticios.nomeEmpresa); // Inicializar o campo temporário com o nome
-    setTelefone(dadosFicticios.telefone);
-    setCnpj(dadosFicticios.cnpj);
-    setEmail(dadosFicticios.email);
-    setLinkedin(dadosFicticios.linkedin);
-    setLocalTrabalho(dadosFicticios.localTrabalho);
-    setSobreEmpresa(dadosFicticios.sobreEmpresa);
+    const nomeEmpresaStorage = localStorage.getItem('nomeUsuario'); // Obtém o nome da empresa
+    if (nomeEmpresaStorage) {
+      setNomeEmpresa(nomeEmpresaStorage);
+      setNomeTemporario(nomeEmpresaStorage); // Inicializa o campo temporário com o nome
+    }
+
+    // Dados fictícios, se necessário
+    setTelefone('(11) 1234-5678');
+    setCnpj('12.345.678/0001-99');
+    setEmail('contato@finnova.com');
+    setLocalTrabalho('Remoto');
+    setSobreEmpresa('Soluções inovadoras para o mercado financeiro.');
   }, []);
 
   // Função para salvar as alterações
@@ -62,18 +54,12 @@ function PerfilEmpresa() {
         >
           Perfil
         </button>
-        <button
-          className={abaAtiva === 'preferencias' ? 'active' : ''}
-          onClick={() => setAbaAtiva('preferencias')}
-        >
-          Preferências
-        </button>
       </div>
 
       <div className="containerCentral">
         {abaAtiva === 'perfil' && (
           <>
-            <h1 className="nomeEmpresa">{nomeEmpresa}</h1>
+            <h1 className="nomeEmpresa">{nomeEmpresa || 'Empresa'}</h1>
 
             <div className="dadosPessoais">
               <h2>Dados Pessoais</h2>
@@ -122,36 +108,6 @@ function PerfilEmpresa() {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={!editMode}
-                className={editMode ? 'editable' : 'disabled'}
-              />
-            </div>
-
-            <div className="campo">
-              <label htmlFor="linkedin">LinkedIn:</label>
-              <input
-                id="linkedin"
-                type="text"
-                value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
-                disabled={!editMode}
-                className={editMode ? 'editable' : 'disabled'}
-              />
-            </div>
-          </>
-        )}
-
-        {abaAtiva === 'preferencias' && (
-          <>
-            <h2 className='preferenciasName'>Preferências para o anúncio de vagas</h2>
-
-            <div className="campo">
-              <label htmlFor="localTrabalho">Local de Trabalho:</label>
-              <input
-                id="localTrabalho"
-                type="text"
-                value={localTrabalho}
-                onChange={(e) => setLocalTrabalho(e.target.value)}
                 disabled={!editMode}
                 className={editMode ? 'editable' : 'disabled'}
               />

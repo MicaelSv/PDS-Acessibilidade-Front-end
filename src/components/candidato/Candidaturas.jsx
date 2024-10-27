@@ -64,7 +64,7 @@ function Candidaturas() {
                   {etapas.map((e, i) => (
                     <div
                       key={i}
-                      className={`etapa ${candidatura.etapa === i ? 'ativa' : 'inativa'}`}
+                      className={`etapa ${candidatura.etapa === e ? 'ativa' : 'inativa'}`}
                     >
                       {e}
                     </div>

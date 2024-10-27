@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../scss/candidato-scss/minhaAreaCandidato.scss';
 import { useNavigate } from 'react-router-dom';
 
 
 function MinhaAreaCandidato() {
 
-  const navigate = useNavigate(); // Hook para navegação
+  const navigate = useNavigate();
+  const [usuarioNome, setUsuarioNome] = useState('');
+
+    useEffect(() => {
+        const nome = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+        if (nome) {
+            setUsuarioNome(nome);
+        }
+    }, []);
 
   const handleVerMaisVagas = () => {
     navigate('/buscarVagas');
@@ -13,7 +21,7 @@ function MinhaAreaCandidato() {
   
   return (
     <div className='AreaCandidato'>
-      <h3 className='msg-inicial'>Seja bem vindo, Lucas!</h3>
+      <h3 className='msg-inicial'>Seja bem vindo, {usuarioNome || 'Usuário'}!</h3>
 
       <div className='contentArea'>
         {/* Esquerda - Estatísticas */}

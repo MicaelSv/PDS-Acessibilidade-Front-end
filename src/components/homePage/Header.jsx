@@ -7,12 +7,24 @@ import Modal from './Modal';
 import EmpresaModal from './EmpresaModal';
 import LoginModal from './LoginModal';
 
-function Header() {
+function Header({ servicosRef, sobreNosRef  }) {
   const [showHoverCard, setShowHoverCard] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showEmpresaModal, setShowEmpresaModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const navigate = useNavigate();
+
+  const scrollToServicos = () => {
+    if (servicosRef.current) {
+      servicosRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToSobreNos = () => {
+    if (sobreNosRef.current) {
+      sobreNosRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <header>
@@ -21,8 +33,8 @@ function Header() {
           <img src='/logo.png' height={40} width={40} style={{ borderRadius: '15%' }} alt="logo"></img>
           <p>AccessAble</p>
         </div>
-        <p className='sbnos'>Sobre nós</p>
-        <p className='serv'>Serviços</p>
+        <p className='sbnos' onClick={scrollToSobreNos}>Sobre nós </p>
+        <p className='serv' onClick={scrollToServicos}>Serviços</p>
       </div>
 
       <div className='login-group'>

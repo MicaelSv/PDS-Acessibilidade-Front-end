@@ -1,12 +1,39 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // Importe useLocation
 import '../../scss/empresa-scss/headerEmpresa.scss';
 
 function HeaderEmpresa() {
   const [activePage, setActivePage] = useState('Minha área');
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Obtenha a localização atual
   const dropdownRef = useRef(null);
+
+  const [nomeUsuario, setNomeEmpresa] = useState('');
+
+  useEffect(() => {
+    const nomeEmpresaStorage = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+    if (nomeEmpresaStorage) {
+      setNomeEmpresa(nomeEmpresaStorage);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Atualiza o activePage com base na localização
+    switch (location.pathname) {
+      case '/homeEmpresa':
+        setActivePage('Minha área');
+        break;
+      case '/buscaCurriculos':
+        setActivePage('Busca de currículos');
+        break;
+      case '/minhasVagas':
+        setActivePage('Minhas vagas');
+        break;
+      default:
+        setActivePage('Minha área');
+    }
+  }, [location]); // Dependência na localização
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -32,21 +59,18 @@ function HeaderEmpresa() {
   };
 
   const handleLogout = () => {
-    // Remove o token do localStorage
     localStorage.removeItem('token');
-    setShowDropdown(false); // Fecha o dropdown
-    navigate('/'); // Redireciona para a home
+    setShowDropdown(false);
+    navigate('/');
   };
 
-  // Função para lidar com o clique no item do dropdown
   const handleDropdownItemClick = (item) => {
     if (item === 'Perfil') {
-      navigate('/perfilEmpresa');  // Redireciona para a página de perfil da empresa
+      navigate('/perfilEmpresa');
     } else if (item === 'Ajuda') {
-      navigate('/ajuda');  // Exemplo: redireciona para a página de ajuda
+      navigate('/ajuda');
     } else if (item === 'Sair') {
-      // Lógica de logout, redirecionar ou limpar informações do usuário
-      navigate('/login');  // Redireciona para a página de login, por exemplo
+      handleLogout();
     }
   };
 
@@ -79,7 +103,7 @@ function HeaderEmpresa() {
       </div>
 
       <div className='hbloco3' ref={dropdownRef}>
-        <p>FinNova Soluções</p>
+        <p>{nomeUsuario || 'Empresa'}</p>
         <img 
           src="/menubar.png" 
           height={18} 
@@ -91,10 +115,9 @@ function HeaderEmpresa() {
         {showDropdown && (
           <div className='dropdown-menu'>
             <p onClick={() => handleDropdownItemClick('Perfil')}>Perfil</p>
-            <p onClick={() => handleDropdownItemClick('Ajuda')}>Ajuda</p>
-            <p onClick={() => handleLogout('Sair')}>Sair</p>
+            <p onClick={() => handleDropdownItemClick('Sair')}>Sair</p>
           </div>
-        )}
+ )}
       </div>
     </div>
   );

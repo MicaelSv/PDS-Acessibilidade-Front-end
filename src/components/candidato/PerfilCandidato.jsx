@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import '../../scss/candidato-scss/perfilCandidato.scss'; // Arquivo SCSS específico para o perfil de usuário
 
 function PerfilCandidato() {
   // Estado para armazenar email e senha
   const [email, setEmail] = useState('user@example.com');
   const [senha, setSenha] = useState('********');
+  const [nome, setNome] = useState('');
 
   // Estado para controlar se os campos são editáveis ou não
   const [isEditable, setIsEditable] = useState(false);
@@ -20,7 +21,14 @@ function PerfilCandidato() {
     console.log('Email salvo:', email);
     console.log('Senha salva:', senha);
     setIsEditable(false); // Desabilita a edição após salvar
-  };
+  };  
+
+  useEffect(() => {
+    const nomeUsuario = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+    if (nomeUsuario) {
+      setNome(nomeUsuario);
+    }
+  }, []);
 
   return (
     <div className="perfilUsuario">
@@ -29,7 +37,7 @@ function PerfilCandidato() {
       </div>
 
       <div className="containerCentral">
-        <h1 className="nomeUsuario">Nome do Usuário</h1>
+      <h1 className="nomeUsuario">{nome || 'Usuário'}</h1> {/* Exibe o nome do usuário ou "Usuário" */}
 
         <div className="dadosPessoais">
           <h2>Dados Pessoais</h2>

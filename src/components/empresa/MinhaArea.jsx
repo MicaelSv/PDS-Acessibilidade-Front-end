@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../scss/empresa-scss/minhaArea.scss';
+import { useNavigate } from 'react-router-dom';
 
 function MinhaArea() {
+  const navigate = useNavigate(); 
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(1);
   const [isSalarioHidden, setIsSalarioHidden] = useState(false);
@@ -17,12 +19,21 @@ function MinhaArea() {
     quantidadeVagas: 1
   });
 
+  const [nomeUsuario, setNomeEmpresa] = useState('');
+
   const handleNextStep = () => setStep(step + 1);
   const handlePrevStep = () => setStep(step - 1);
 
   const handleCheckboxChange = (e) => {
     setIsSalarioHidden(e.target.checked);
   };
+
+  useEffect(() => {
+    const nomeEmpresaStorage = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
+    if (nomeEmpresaStorage) {
+      setNomeEmpresa(nomeEmpresaStorage);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,12 +92,12 @@ function MinhaArea() {
     <div className='minhaArea'>
       <div className='mBloco1'>
         <div className='mContainer1'>
-          <h2>Bom te ver, FinNova Soluções!</h2>
+        <h2>Bom te ver, {nomeUsuario || 'Empresa'}!</h2>
           <p>Comece a usar nossos recursos para encontrar os candidatos ideais</p>
         </div>
 
         <div className='mContainer2'>
-          <button className='btnCurriculo'>Buscar novos currículos</button>
+          <button className='btnCurriculo'onClick={() => navigate('/buscaCurriculos')}>Buscar novos currículos</button>
           <button className='btnVaga' onClick={() => setShowForm(true)}>Anunciar vaga</button>
         </div>
       </div>
