@@ -352,3 +352,16 @@
     opacity: 1;
   }
 }
+
+.bv-modal-titulo,
+.bv-modal-empresa,
+.bv-modal-localidade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
