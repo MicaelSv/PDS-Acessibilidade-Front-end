@@ -6,14 +6,22 @@ function Candidaturas() {
   const [filtro, setFiltro] = useState('');
   const [candidaturas, setCandidaturas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const etapas = ['Enviado', 'Pré-selecionado', 'Finalista'];
+  
+  const etapasMap = {
+    'enviado': 'Enviado',
+    'em-revisao': 'Em revisão',
+    'selecionado': 'Selecionado',
+    'recusado': 'Recusado'
+  };
+
+  const etapas = Object.keys(etapasMap);
 
   useEffect(() => {
     async function fetchCandidaturas() {
       try {
         const response = await axios.get('https://api-accessable.vercel.app/candidaturas', {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` // Inclui o token JWT
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
         setCandidaturas(response.data);
@@ -28,7 +36,7 @@ function Candidaturas() {
 
   const candidaturasFiltradas = filtro === '' 
     ? candidaturas 
-    : candidaturas.filter(candidatura => etapas[candidatura.etapa] === filtro);
+    : candidaturas.filter(candidatura => candidatura.etapa === filtro);
 
   return (
     <div className="candidaturas-container">
@@ -38,7 +46,7 @@ function Candidaturas() {
         <select id="filtro" value={filtro} onChange={(e) => setFiltro(e.target.value)}>
           <option value="">Todos</option>
           {etapas.map((etapa, index) => (
-            <option key={index} value={etapa}>{etapa}</option>
+            <option key={index} value={etapa}>{etapasMap[etapa]}</option>
           ))}
         </select>
       </div>
@@ -66,7 +74,7 @@ function Candidaturas() {
                       key={i}
                       className={`etapa ${candidatura.etapa === e ? 'ativa' : 'inativa'}`}
                     >
-                      {e}
+                      {etapasMap[e]}
                     </div>
                   ))}
                 </div>
