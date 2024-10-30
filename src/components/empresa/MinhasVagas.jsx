@@ -14,7 +14,8 @@ function MinhasVagas() {
   const [candidatos, setCandidatos] = useState([]); // Novo estado para candidatos
 
   const handleVerCurriculo = (usuarioId) => {
-    window.open(`/CurriculoCandidato/${usuarioId}`, '_blank');
+    const baseUrl = window.location.origin; // Pega a URL base da aplicação
+    window.open(`${baseUrl}/CurriculoCandidato/${usuarioId}`, '_blank');
   };
 
   const statusOptions = {
