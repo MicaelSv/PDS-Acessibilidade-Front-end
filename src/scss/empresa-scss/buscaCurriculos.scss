@@ -1,48 +1,117 @@
 .buscaCurriculos {
-    text-align: center;
-    margin-top: 10px;
-    padding: 20px;
-  
-    h3 {
-      margin-bottom: 5px;
+  text-align: center;
+  margin-top: 10px;
+  padding: 20px;
+
+  h3 {
+    margin-bottom: 5px;
+  }
+
+  p {
+    margin-bottom: 10px;
+    color: #798086;
+  }
+
+  .searchForm {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+
+    .inputField {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 300px;
     }
-  
-    p {
-      margin-bottom: 10px;
-      color: #798086;
-    }
-  
-    .searchForm {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 15px;
-  
-      .inputField {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        width: 300px;
+
+    .searchButton {
+      background-color: #FF981F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #e58d1a;
       }
-  
-      .searchButton {
-        background-color: #FF981F;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        
-        &:hover {
-          background-color: #e58d1a;
+    }
+  }
+
+  .img-busca {
+    display: block;
+    margin: 50px auto 0;
+    border-radius: 15%;
+  }
+
+  .resultados-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+    
+    .candidato-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      width: 55%;
+      box-sizing: border-box;
+      transition: box-shadow 0.3s ease;
+      
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .candidato-info {
+        h4 {
+          text-align: left;
+          margin: 0;
+          color: #333;
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        p.cargo {
+          text-align: left;
+          margin-top: 6px;
+          color: #666;
+          font-size: 14px;
+        }
+
+        p.cidade {
+          text-align: left;
+          margin-top: 7px;
+          color: #888;
+          font-size: 13px;
+        }
+      }
+
+      .buttons-container {
+        .ver-curriculo {
+          background-color: #6108FF;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 500;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: darken(#6108FF, 10%);
+          }
+
+          &:active {
+            transform: translateY(1px);
+          }
         }
       }
     }
-
-    /* Centralizar a imagem */
-    .img-busca {
-      display: block; /* Garante que o elemento ocupe 100% da largura disponível */
-      margin: 50px auto 0; /* Aumenta a margem superior para 40px e remove margem inferior */
-      border-radius: 15%; /* Mantém o estilo da borda */
-    }
+  }
 }

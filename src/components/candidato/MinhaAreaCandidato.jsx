@@ -24,7 +24,6 @@ function MinhaAreaCandidato() {
       <h3 className='msg-inicial'>Seja bem vindo, {usuarioNome || 'Usuário'}!</h3>
 
       <div className='contentArea'>
-        {/* Esquerda - Estatísticas */}
         <div className='esquerda'>
           <p>Suas estatísticas</p>
 

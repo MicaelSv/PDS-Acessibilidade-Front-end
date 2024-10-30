@@ -13,6 +13,9 @@ function MinhasVagas() {
   const [vagasFechadas, setVagasFechadas] = useState([]);
   const [candidatos, setCandidatos] = useState([]); // Novo estado para candidatos
 
+  const handleVerCurriculo = (usuarioId) => {
+    window.open(`/CurriculoCandidato/${usuarioId}`, '_blank');
+  };
 
   const statusOptions = {
     'enviado': 'Enviado',
@@ -118,7 +121,7 @@ function MinhasVagas() {
   const handleReabrirVaga = async (vagaId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`/api/empresa/vagas/${vagaId}/abrir`, {}, {
+      await axios.put(`https://api-accessable.vercel.app/empresa/vagas/${vagaId}/abrir`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -268,7 +271,7 @@ function MinhasVagas() {
                       <p className="cidade">{candidato.cidade}</p>
                     </div>
                     <div className="buttons-container">
-                      <button className="ver-curriculo">Ver Currículo</button>
+                    <button className="ver-curriculo" onClick={() => handleVerCurriculo(candidato.id)}>Ver Currículo</button>
                       <select 
   value={candidato.status} 
   onChange={(e) => atualizarStatusCandidatura(candidato.candidatura_id, e.target.value)}

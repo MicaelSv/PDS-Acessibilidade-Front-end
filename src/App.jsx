@@ -9,6 +9,7 @@ import Content5 from './components/homePage/Content5';
 import Footer from './components/homePage/Footer';
 
 import HeaderEmpresa from './components/empresa/headerEmpresa.jsx';
+import CurriculoCandidato from './components/empresa/CurriculoCandidato.jsx';
 import MinhaArea from './components/empresa/MinhaArea.jsx';
 import MinhaAreaCandidato from './components/candidato/MinhaAreaCandidato.jsx';
 import PerfilCandidato from './components/candidato/PerfilCandidato.jsx';
@@ -114,6 +115,14 @@ function App() {
                 <>
                   <HeaderEmpresa/>
                   <MinhasVagas/>
+                </>
+              } 
+            />
+
+            <Route path="/CurriculoCandidato/:id" 
+              element={
+                <>
+                  <CurriculoCandidato/>
                 </>
               } 
             />

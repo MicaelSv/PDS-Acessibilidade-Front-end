@@ -8,6 +8,7 @@ function Modal({ onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [age, setAge] = useState('');
   const [city, setCity] = useState('');
   const [linkedin, setLinkedin] = useState('');
   const [desiredPosition, setDesiredPosition] = useState('');
@@ -56,6 +57,7 @@ function Modal({ onClose }) {
     email: '',
     password: '',
     phone: '',
+    age: '',
     city: '',
     desiredPosition: '',
     desiredSalary: '',
@@ -68,6 +70,11 @@ function Modal({ onClose }) {
       setCourses([...courses, newCourse]);
       setNewCourse('');
     }
+  };
+
+  const validateAge = (age) => {
+    const ageNum = Number(age);
+    return ageNum >= 16 && ageNum <= 100; // Permite idades entre 16 e 100 anos
   };
 
   const addExperience = () => {
@@ -97,9 +104,11 @@ function Modal({ onClose }) {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Regex para validar email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return emailRegex.test(email);
   };
+  
 
   const validatePassword = (password) => {
     // Mínimo 8 caracteres, pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial
@@ -114,9 +123,9 @@ function Modal({ onClose }) {
   };
 
   const validateSalary = (salary) => {
-    return salary > 0 && salary <= 999999;
+    const numericSalary = Number(salary.replace(/[^\d,]/g, '').replace(',', '.'));
+    return numericSalary > 0 && numericSalary <= 999999;
   };
-
   const validateForm = () => {
     //Reset dos erros
     //let newErrors = {};
@@ -158,6 +167,15 @@ function Modal({ onClose }) {
       isValid = false;
     } else if (!validatePhone(phone)) {
       newErrors.phone = 'Telefone inválido';
+      isValid = false;
+    }
+
+    // Validação da Idade
+    if (!age) {
+      newErrors.age = 'Idade é obrigatória';
+      isValid = false;
+    } else if (!validateAge(age)) {
+      newErrors.age = 'Idade deve estar entre 16 e 100 anos';
       isValid = false;
     }
 
@@ -220,16 +238,18 @@ function Modal({ onClose }) {
       }
       return;
     }
+    const numericSalary = Number(desiredSalary.replace(/[^\d,]/g, '').replace(',', '.'));
 
     const candidatoData = {
       nome: fullName,
       email: email,
       senha: password,
       telefone: phone,
+      idade: age,
       cidade: city,
       cargo_desejado: desiredPosition,
       linkedin: linkedin, // Adicionando o LinkedIn
-      salario_desejado: desiredSalary,
+      salario_desejado: numericSalary,
       sexo: sex,
       tipo_deficiencia: disability,
       resumo_curriculo: resumeSummary,
@@ -288,6 +308,13 @@ function Modal({ onClose }) {
     }
 };
 
+const formatCurrency = (value) => {
+  const numericValue = value.replace(/\D/g, '');
+  if (numericValue === '') return '';
+  return `R$ ${new Intl.NumberFormat('pt-BR').format(numericValue)}`;
+};
+
+
 const formatPhone = (value) => {
     let phone = value.replace(/\D/g, '');
     
@@ -303,7 +330,7 @@ const formatPhone = (value) => {
       <div className="modal-content">
         <button className="close-button" onClick={onClose}>X</button>
         <div className="modal-body">
-          <div className="modal-left">
+          <div className="modal-left-2">
             <img src="/img-register-candidato.jpg" alt="Registration" />
           </div>
           <div className="modal-right">
@@ -450,14 +477,18 @@ const formatPhone = (value) => {
 
                   <label>Email</label>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setEmailError(''); // Limpa o erro quando o usuário começa a digitar
-                    }}
-                    placeholder="Email"
-                  />
+  type="email"
+  value={email}
+  onChange={(e) => {
+    setEmail(e.target.value);
+    if (!validateEmail(e.target.value) && e.target.value !== '') {
+      setEmailError('Por favor, insira um email válido');
+    } else {
+      setEmailError('');
+    }
+  }}
+  placeholder="Email"
+/>
                   {emailError && <span className="error-message">{emailError}</span>}
                   {errors.email && <span className="error-message">{errors.email}</span>}
 
@@ -481,6 +512,18 @@ const formatPhone = (value) => {
                     maxLength="15"
                   />
                   {errors.phone && <span className="error-message">{errors.phone}</span>}
+
+                  <label>Idade</label>
+                  <input
+                    placeholder='Digite sua idade'
+                    type="number"
+                    min="16"
+                    max="100"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    className={errors.age ? 'error' : ''}
+                  />
+                  {errors.age && <span className="error-message">{errors.age}</span>}
 
                   <label>Cidade</label>
                   <input
@@ -510,14 +553,17 @@ const formatPhone = (value) => {
                       onChange={(e) => setLinkedin(e.target.value)}
                     />
 
-                  <label>Salário Desejado</label>
-                  <input
-                    placeholder='Informe o salário desejado'
-                    type="number"
-                    value={desiredSalary}
-                    onChange={(e) => setDesiredSalary(e.target.value)}
-                    className={errors.desiredSalary ? 'error' : ''}
-                  />
+<label>Salário Desejado</label>
+<input
+  placeholder='R$ 0,00'
+  type="text"
+  value={desiredSalary}
+  onChange={(e) => {
+    const formatted = formatCurrency(e.target.value);
+    setDesiredSalary(formatted);
+  }}
+  className={errors.desiredSalary ? 'error' : ''}
+/>
                   {errors.desiredSalary && <span className="error-message">{errors.desiredSalary}</span>}
 
                   <label>Gênero</label>
