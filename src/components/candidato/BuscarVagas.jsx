@@ -20,19 +20,27 @@ function BuscarVagas() {
 
   const handleBuscarVagas = async () => {
     if (query.trim() !== '') {
-      try {//https://api-accessable.vercel.app/buscar-vagas
+      try {
+        // Busca as vagas
         const response = await axios.get('https://api-accessable.vercel.app/buscar-vagas', {
           params: {
             query: query,
             filtroDeficiencia: filtroDeficiencia
           }
         });
-
+  
+        // Salva a pesquisa
+        const token = localStorage.getItem('token');
+        await axios.post('https://api-accessable.vercel.app/pesquisas-recentes', 
+          { termo: query },
+          { headers: { Authorization: `Bearer ${token}` }}
+        );
+  
         setVagasFiltradas(response.data);
         setBuscaFeita(true);
         setTermoBuscado(query);
       } catch (error) {
-        console.error("Erro ao buscar vagas:", error);
+        console.error("Erro:", error);
       }
     }
   };

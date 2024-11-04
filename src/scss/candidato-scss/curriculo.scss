@@ -183,3 +183,52 @@
     background-color: #c82333;
   }
 }
+
+.btnRemoverExp{
+  margin-bottom: 10px;
+}
+
+.add-experiencia-form{
+  input{
+    margin-top: 6px;
+  }
+}
+
+.addLinkedin {
+  margin-left: 10px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+// Adicione no seu arquivo SCSS
+.linkedin-edit {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  
+  input {
+    margin-left: 6px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

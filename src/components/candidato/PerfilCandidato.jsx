@@ -1,34 +1,84 @@
-import { useState, useEffect  } from 'react';
-import '../../scss/candidato-scss/perfilCandidato.scss'; // Arquivo SCSS específico para o perfil de usuário
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../../scss/candidato-scss/perfilCandidato.scss';
 
 function PerfilCandidato() {
-  // Estado para armazenar email e senha
-  const [email, setEmail] = useState('user@example.com');
-  const [senha, setSenha] = useState('********');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [nome, setNome] = useState('');
-
-  // Estado para controlar se os campos são editáveis ou não
   const [isEditable, setIsEditable] = useState(false);
-
-  // Função para habilitar a edição dos campos
-  const handleEdit = () => {
-    setIsEditable(true);
-  };
-
-  // Função para salvar as alterações e desabilitar a edição
-  const handleSave = () => {
-    // Aqui você pode adicionar a lógica para salvar os campos
-    console.log('Email salvo:', email);
-    console.log('Senha salva:', senha);
-    setIsEditable(false); // Desabilita a edição após salvar
-  };  
+  const [originalEmail, setOriginalEmail] = useState('');
+  const [senhaError, setSenhaError] = useState('');
 
   useEffect(() => {
-    const nomeUsuario = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
-    if (nomeUsuario) {
-      setNome(nomeUsuario);
-    }
+    fetchPerfilData();
   }, []);
+
+  const fetchPerfilData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('https://api-accessable.vercel.app/user/perfil', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setNome(response.data.nome);
+      setEmail(response.data.email);
+      setOriginalEmail(response.data.email);
+    } catch (error) {
+      console.error('Erro ao buscar dados do perfil:', error);
+    }
+  };
+
+  const handleEdit = () => {
+    setIsEditable(true);
+    setSenhaError('');
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const updatedData = {};
+
+      if (email !== originalEmail) {
+        updatedData.email = email;
+      }
+
+      if (senha) {
+        if (validatePassword(senha)) {
+          updatedData.senha = senha;
+        } else {
+          setSenhaError('A senha deve ter no mínimo 8 caracteres, incluindo maiúsculas, minúsculas, números e caracteres especiais.');
+          return;
+        }
+      }
+
+      if (Object.keys(updatedData).length > 0) {
+        const response = await axios.put('https://api-accessable.vercel.app/user/perfil', 
+          updatedData,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          }
+        );
+        console.log(response.data.message);
+        setIsEditable(false);
+        setSenha('');
+        setOriginalEmail(email);
+        setSenhaError('');
+      } else {
+        setIsEditable(false);
+      }
+    } catch (error) {
+      console.error('Erro ao salvar alterações:', error);
+    }
+  };
 
   return (
     <div className="perfilUsuario">
@@ -37,7 +87,7 @@ function PerfilCandidato() {
       </div>
 
       <div className="containerCentral">
-      <h1 className="nomeUsuario">{nome || 'Usuário'}</h1> {/* Exibe o nome do usuário ou "Usuário" */}
+        <h1 className="nomeUsuario">{nome || 'Usuário'}</h1>
 
         <div className="dadosPessoais">
           <h2>Dados Pessoais</h2>
@@ -50,7 +100,7 @@ function PerfilCandidato() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            disabled={!isEditable} // Torna o campo não editável se isEditable for false
+            disabled={!isEditable}
           />
         </div>
 
@@ -60,18 +110,26 @@ function PerfilCandidato() {
             id="senha"
             type="password"
             value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            disabled={!isEditable} // Torna o campo não editável se isEditable for false
+            onChange={(e) => {
+              setSenha(e.target.value);
+              setSenhaError('');
+            }}
+            disabled={!isEditable}
+            placeholder={isEditable ? "Digite a nova senha" : "********"}
           />
+          {senhaError && <p className="erro-senha">{senhaError}</p>}
         </div>
 
         <div className="botoes">
-          <button className="salvarBtn" onClick={handleSave}>
-            Salvar
-          </button>
-          <button className="alterarBtn" onClick={handleEdit}>
-            Alterar
-          </button>
+          {isEditable ? (
+            <button className="salvarBtn" onClick={handleSave}>
+              Salvar
+            </button>
+          ) : (
+            <button className="alterarBtn" onClick={handleEdit}>
+              Alterar
+            </button>
+          )}
         </div>
       </div>
     </div>

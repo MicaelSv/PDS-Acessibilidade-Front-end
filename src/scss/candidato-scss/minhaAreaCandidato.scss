@@ -28,8 +28,8 @@
           .stat-box {
             background-color: white;
             color: #4499CC;
-            width: 155px;
-            height: 90px;
+            width: 160px;
+            height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -40,15 +40,23 @@
             .stat-number {
               font-size: 24px;
               font-weight: bold;
-              margin-bottom: 5px;
+              margin-bottom: 1px;
             }
-  
+
+            .stat-number-2 {
+              font-size: 24px;
+              font-weight: bold;
+              margin-bottom: 1px;
+              padding-top: 18px;
+            }
+
             .stat-description {
               color: #616161;
               font-size: 13px;
               text-align: center;
             }
           }
+        
         }
   
         .profile-strength {
@@ -238,5 +246,12 @@
         }
       }
     }
+  }
+
+  .sem-pesquisas {
+    text-align: center;
+    color: #888;
+    margin-top: 20px;
+    margin-right: 25px;
   }
   

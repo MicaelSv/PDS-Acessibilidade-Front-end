@@ -1,19 +1,73 @@
 import React, { useState, useEffect } from 'react';
 import '../../scss/candidato-scss/minhaAreaCandidato.scss';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 
 function MinhaAreaCandidato() {
-
   const navigate = useNavigate();
+  const [pesquisasRecentes, setPesquisasRecentes] = useState([]);
   const [usuarioNome, setUsuarioNome] = useState('');
+  const [estatisticas, setEstatisticas] = useState({
+    curriculosEnviados: 0,
+    candidaturasSelecionadas: 0,
+  });
+  const [profileStrength, setProfileStrength] = useState(0);
 
-    useEffect(() => {
-        const nome = localStorage.getItem('nomeUsuario'); // Obtém o nome do localStorage
-        if (nome) {
-            setUsuarioNome(nome);
-        }
-    }, []);
+  useEffect(() => {
+    const nome = localStorage.getItem('nomeUsuario');
+    if (nome) {
+      setUsuarioNome(nome);
+    }
+
+    const fetchEstatisticas = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://api-accessable.vercel.app/user/estatisticas', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log('Response:', response);
+        setEstatisticas({
+          curriculosEnviados: response.data.curriculos_enviados,
+          candidaturasSelecionadas: response.data.candidaturas_selecionadas,
+        });
+      } catch (error) {
+        console.error('Erro ao buscar estatísticas', error);
+      }
+    };
+
+    const fetchCurriculumStrength = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://api-accessable.vercel.app/user/curriculum-strength', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setProfileStrength(response.data.curriculum_strength);
+      } catch (error) {
+        console.error('Erro ao buscar força do currículo', error);
+      }
+    };
+
+    fetchEstatisticas();
+    fetchCurriculumStrength(); // Chama a função para buscar a força do currículo
+  }, []);
+   
+
+  useEffect(() => {
+    const fetchPesquisasRecentes = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://api-accessable.vercel.app/pesquisas-recentes', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setPesquisasRecentes(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar pesquisas recentes:', error);
+      }
+    };
+
+    fetchPesquisasRecentes();
+  }, []);  
+
 
   const handleVerMaisVagas = () => {
     navigate('/buscarVagas');
@@ -29,13 +83,13 @@ function MinhaAreaCandidato() {
 
           <div className="stats-container">
             <div className="stat-box">
-              <p className="stat-number">2</p>
+              <p className="stat-number">{estatisticas.curriculosEnviados}</p>
               <p className="stat-description">Currículos enviados</p>
             </div>
 
             <div className="stat-box">
-              <p className="stat-number">5</p>
-              <p className="stat-description">Candidaturas aceitas</p>
+              <p className="stat-number-2">{estatisticas.candidaturasSelecionadas}</p>
+              <p className="stat-description">Candidaturas selecionadas</p>
             </div>
           </div>
 
@@ -44,8 +98,8 @@ function MinhaAreaCandidato() {
           <div className="profile-strength">
             <p>Força do currículo</p>
             <div className="progress-bar">
-              <div className="progress" style={{ width: '45%' }}>
-                <span className="progress-text">45%</span>
+              <div className="progress" style={{ width: `${profileStrength}%` }}>
+                <span className="progress-text">{profileStrength}%</span>
               </div>
             </div>
           </div>
@@ -77,54 +131,35 @@ function MinhaAreaCandidato() {
             </div>
 
             <div className="vaga-item">
-              <h4 className="vaga-titulo">Gerente de Projetos</h4>
-              <p className="vaga-empresa">Empresa Gestão+</p>
-              <p className="vaga-localidade">Curitiba, PR</p>
-              <hr className="vaga-divisor" />
-            </div>
-
-            <div className="vaga-item">
-              <h4 className="vaga-titulo">Engenheiro de Software</h4>
-              <p className="vaga-empresa">Empresa TechSolution</p>
-              <p className="vaga-localidade">Florianópolis, SC</p>
+              <h4 className ="vaga-titulo">Desenvolvedor Back-End</h4>
+              <p className="vaga-empresa">Empresa ABC</p>
+              <p className="vaga-localidade">São Paulo, SP</p>
               <hr className="vaga-divisor" />
             </div>
           </div>
 
-          <button className='ver-mais-btn' onClick={handleVerMaisVagas}>Ver mais vagas</button>
-
+          <button className="ver-mais-btn" onClick={handleVerMaisVagas}>
+            Ver mais vagas
+          </button>
         </div>
 
         <div className='direita'>
-          <h3>Suas pesquisas recentes</h3>
-          <div className="pesquisa-recente">
-            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
-            <div className="pesquisa-info">
-              <p>Gerente de operações</p>
-              <p>10 novas vagas</p>
-            </div>
-          </div>
-
-          <div className="pesquisa-recente">
-            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
-            <div className="pesquisa-info">
-              <p>Consultor de negócios</p>
-              <p>7 novas vagas</p>
-            </div>
-          </div>
-
-          <div className="pesquisa-recente">
-            <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
-            <div className="pesquisa-info">
-              <p>Analista de dados</p>
-              <p>3 novas vagas</p>
-            </div>
-          </div>
-
+  <h3>Suas pesquisas recentes</h3>
+  {pesquisasRecentes.length > 0 ? (
+    pesquisasRecentes.map((pesquisa) => (
+      <div className="pesquisa-recente" key={pesquisa.id}>
+        <img className="lupa-icon" src="/lupa-pesquisa.png" alt="Ícone de lupa" />
+        <div className="pesquisa-info">
+          <p>{pesquisa.termo}</p>
         </div>
-
       </div>
-    </div>
+    ))
+  ) : (
+    <p className="sem-pesquisas">Você ainda não fez nenhuma pesquisa</p>
+  )}
+</div>
+      </div>
+  </div>
   );
 }
 

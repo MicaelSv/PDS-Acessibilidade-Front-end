@@ -128,22 +128,40 @@ function CurriculoCandidato() {
         <div className="divider" />
 
         <div className="section experiencias-profissionais">
-          <h2>Experiências Profissionais</h2>
-          {!isEmptyField(dadosUsuario.experiencias_profissionais) ? (
-            <ul>
-              {dadosUsuario.experiencias_profissionais.map((exp, index) => (
-                <li key={index} className="experiencia-item">
-                  <strong>{decodeSpecialChars(exp.empresa)}</strong>
-                  <p>Cargo: {decodeSpecialChars(exp.cargo)}</p>
-                  <p>Período: {exp.periodo}</p>
-                  <p>Descrição: {decodeSpecialChars(exp.descricao)}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>Campo não preenchido</p>
-          )}
-        </div>
+  <h2>Experiências Profissionais</h2>
+  {!isEmptyField(dadosUsuario.experiencias_profissionais) ? (
+    <ul>
+      {Array.isArray(dadosUsuario.experiencias_profissionais) ? (
+        dadosUsuario.experiencias_profissionais.map((exp, index) => (
+          <li key={index} className="experiencia-item">
+            <p>Empresa: <strong>{decodeSpecialChars(exp.companyName)}</strong></p>
+            <p>Cargo: {decodeSpecialChars(exp.jobTitle)}</p>
+            <p>Período: {decodeSpecialChars(exp.period)}</p>
+          </li>
+        ))
+      ) : (
+        // Se for uma string, faça o parse
+        (() => {
+          try {
+            const experiencias = JSON.parse(dadosUsuario.experiencias_profissionais);
+            return experiencias.map((exp, index) => (
+              <li key={index} className="experiencia-item">
+                <p>Empresa: <strong>{decodeSpecialChars(exp.companyName)}</strong></p>
+                <p>Cargo: {decodeSpecialChars(exp.jobTitle)}</p>
+                <p>Período: {decodeSpecialChars(exp.period)}</p>
+              </li>
+            ));
+          } catch (error) {
+            console.error('Erro ao fazer parse das experiências profissionais:', error);
+            return <li>Erro ao carregar experiências profissionais.</li>;
+          }
+        })()
+      )}
+    </ul>
+  ) : (
+    <p>Campo não preenchido</p>
+  )}
+</div>
 
         <div className="divider" />
 
@@ -152,21 +170,36 @@ function CurriculoCandidato() {
   {!isEmptyField(dadosUsuario.idiomas) ? (
     <ul>
       {Array.isArray(dadosUsuario.idiomas) 
-        ? dadosUsuario.idiomas.map((item, index) => (
-            <li key={index}>
-              {typeof item === 'object' && item.idioma && item.nivel
-                ? `${decodeSpecialChars(item.idioma)} - ${decodeSpecialChars(item.nivel)}`
-                : typeof item === 'string'
-                  ? decodeSpecialChars(item)
-                  : JSON.stringify(item) // fallback para outros casos
+        ? dadosUsuario.idiomas.map((item, index) => {
+            let idioma;
+            if (typeof item === 'string') {
+              try {
+                idioma = JSON.parse(item);
+              } catch (e) {
+                idioma = item;
               }
-            </li>
-          ))
-        : typeof dadosUsuario.idiomas === 'object'
-          ? Object.entries(dadosUsuario.idiomas).map(([key, value], index) => (
-              <li key={index}>{`${decodeSpecialChars(key)}: ${decodeSpecialChars(value)}`}</li>
-            ))
-          : <li>{decodeSpecialChars(dadosUsuario.idiomas)}</li>
+            } else {
+              idioma = item;
+            }
+            
+            if (typeof idioma === 'object' && idioma.idioma && idioma.fluencia) {
+              return <li key={index}>{`${decodeSpecialChars(idioma.idioma)} - ${decodeSpecialChars(idioma.fluencia)}`}</li>;
+            } else {
+              return <li key={index}>{decodeSpecialChars(String(idioma))}</li>;
+            }
+          })
+        : typeof dadosUsuario.idiomas === 'string'
+          ? (() => {
+              try {
+                const parsedIdiomas = JSON.parse(dadosUsuario.idiomas);
+                return Object.entries(parsedIdiomas).map(([key, value], index) => (
+                  <li key={index}>{`${decodeSpecialChars(key)}: ${decodeSpecialChars(value)}`}</li>
+                ));
+              } catch (e) {
+                return <li>{decodeSpecialChars(dadosUsuario.idiomas)}</li>;
+              }
+            })()
+          : <li>{decodeSpecialChars(String(dadosUsuario.idiomas))}</li>
       }
     </ul>
   ) : (
