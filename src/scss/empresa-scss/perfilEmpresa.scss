@@ -4,6 +4,7 @@
   align-items: center;
   height: 100vh;
   margin-top: 70px;
+  
 
   .tabs {
     display: flex;
@@ -152,4 +153,57 @@
   //position: absolute;
   left: 0;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .perfilEmpresa {
+    margin-top: 20px;
+    margin-bottom: 80px; // Aumenta o espaço para o footer em telas menores
+    min-height: auto;
+    padding: 10px;
+    
+    .tabs {
+      flex-direction: column;
+      width: 90%;
+      
+      button {
+        padding: 10px;
+        width: 100%;
+      }
+    }
+
+    .containerCentral {
+      width: 90%;
+      padding: 15px;
+      margin-bottom: 20px;
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .preferenciasName {
+        font-size: 16px;
+      }
+
+      .dadosPessoais h2 {
+        font-size: 16px;
+      }
+
+      .buttonContainer {
+        flex-direction: column;
+        gap: 10px;
+        
+        .salvarBtn,
+        .alterarBtn {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
+  .containerfooter {
+    position: relative;
+    margin-top: 120px;
+  }
 }

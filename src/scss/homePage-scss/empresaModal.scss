@@ -98,6 +98,7 @@
   margin-bottom: 20px;
   text-align: center;
   font-size: 24px;
+  margin-top: 80px;
 }
 
 .empresa-modal-right form {
@@ -119,10 +120,20 @@
 }
 
 .empresa-flex-group {
-  display: flex;
+  display: block;
   gap: 20px; /* Espaçamento entre os inputs */
   margin-bottom: 15px;
 }
+
+.empresa-modal-right select {
+  margin-bottom: 15px; /* Adiciona espaço abaixo dos selects */
+  padding: 10px; /* Adiciona padding para os selects */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%; /* Faz com que os selects ocupem toda a largura disponível */
+}
+
 
 .empresa-flex-group div {
   flex: 1;
@@ -227,6 +238,7 @@
 .empresa-modal-right label {
   color: black;
   margin-bottom: 5px;
+  display: block;
 }
 
 .empresa-modal-right input {
@@ -337,6 +349,10 @@
     padding: 15px;
     max-height: none; /* Remover limite de altura */
     flex-direction: column; /* Mantém os campos um abaixo do outro */
+  }
+
+  .empresa-modal-right h2 {
+    margin-top: 20px;
   }
 
   .empresa-flex-group {

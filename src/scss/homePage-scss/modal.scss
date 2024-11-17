@@ -242,6 +242,21 @@
   cursor: pointer;
 }
 
+.ibge{
+  margin-bottom: 1rem;
+  label {
+    display: block; /* Garante que o rótulo fique acima do campo */
+    margin-bottom: 0.5rem; /* Espaço entre o rótulo e o select */
+  }
+
+  select {
+    width: 100%; /* Ajuste opcional para expandir o campo */
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+
 @media (max-width: 768px) {
   .modal-content {
     flex-direction: column;
@@ -264,3 +279,4 @@
     width: 100%;
   }
 }
+

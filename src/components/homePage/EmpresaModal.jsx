@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Importando useEffect
 import '../../scss/homePage-scss/empresaModal.scss';
 
 function EmpresaModal({ onClose }) {
   const [nomeEmpresa, setNomeEmpresa] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [numeroFuncionarios, setNumeroFuncionarios] = useState('');
+  const [selectedState, setSelectedState] = useState(''); // Adicionei selectedState
   const [cidade, setCidade] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -12,6 +13,9 @@ function EmpresaModal({ onClose }) {
   const [sobreEmpresa, setSobreEmpresa] = useState('');
   const [errors, setErrors] = useState({});
   const [emailError, setEmailError] = useState('');
+
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +36,26 @@ function EmpresaModal({ onClose }) {
     const phoneRegex = /^\(\d{2}\)\s\d{4}-\d{4}$/;
     return phoneRegex.test(phone);
   };
+
+  // Fetch estados
+  useEffect(() => {
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+      .then(response => response.json())
+      .then(data => setStates(data))
+      .catch(error => console.error('Erro ao buscar estados:', error));
+  }, []);
+
+  // Fetch cidades baseado no estado selecionado
+  useEffect(() => {
+    if (selectedState) {
+      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`)
+        .then(response => response.json())
+        .then(data => setCities(data))
+        .catch(error => console.error('Erro ao buscar cidades:', error));
+    } else {
+      setCities([]); // Limpa as cidades quando nenhum estado está selecionado.
+    }
+  }, [selectedState]);
 
   const checkEmail = async (email) => {
     try {
@@ -88,7 +112,6 @@ function EmpresaModal({ onClose }) {
       newErrors.email = 'Email inválido';
       isValid = false;
     } else {
-      // Verifica se o email já existe
       const emailErrorMessage = await checkEmail(email);
       if (emailErrorMessage) {
         newErrors.email = emailErrorMessage;
@@ -124,7 +147,7 @@ function EmpresaModal({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const isValid = await validateForm(); // Aguarda a resolução da função validateForm
+    const isValid = await validateForm();
   
     if (isValid) {
       const empresaData = {
@@ -165,7 +188,6 @@ function EmpresaModal({ onClose }) {
       }
     }
   };
-  
 
   const formatCNPJ = (value) => {
     return value
@@ -228,16 +250,34 @@ function EmpresaModal({ onClose }) {
                   />
                   {errors.numeroFuncionarios && <span className="error-message">{errors.numeroFuncionarios}</span>}
                 </div>
+              </div>
+
+              <div className="empresa-flex-group">
+                <div>
+                  <label>Estado</label>
+                  <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+                    <option value="">Selecione um estado</option>
+                    {states.map(state => (
+                      <option key={state.id} value={state.sigla}>
+                        {state.nome}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div>
                   <label>Cidade</label>
-                  <input 
-                    type="text" 
-                    placeholder="Digite a cidade" 
-                    className={`empresa-cidade ${errors.cidade ? 'error' : ''}`}
-                    value={cidade}
+                  <select 
+                    value={cidade} 
                     onChange={(e) => setCidade(e.target.value)} 
-                  />
-                  {errors.cidade && <span className="error-message">{errors.cidade}</span>}
+                    disabled={!selectedState}
+                  >
+                    <option value="">Selecione uma cidade</option>
+                    {cities.map(city => (
+                      <option key={city.id} value={city.nome}>
+                        {city.nome}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -252,7 +292,7 @@ function EmpresaModal({ onClose }) {
                     onChange={(e) => {
                       setEmail(e.target.value);
                       setErrors(prev => ({ ...prev, email: '' }));
-                    } }
+                    }}
                   />
                   {errors.email && <span className="error-message">{errors.email}</span>}
                 </div>

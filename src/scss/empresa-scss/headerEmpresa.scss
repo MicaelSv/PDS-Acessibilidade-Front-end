@@ -185,28 +185,36 @@
       height: auto;
       padding: 10px;
   
-      .hbloco1, .hbloco2, .hbloco3 {
-        flex-direction: column;
-        align-items: center;
+      .hbloco1 {
+        display: flex; // Mantém a imagem e o nome lado a lado
+        align-items: center; // Alinha verticalmente
         padding-top: 10px;
+  
+        p {
+          margin-left: 10px; // Espaçamento entre a imagem e o texto
+        }
       }
   
       .hbloco2 {
-        gap: 10px;
+        flex-direction: column; // Alinha os itens em coluna
+        align-items: center; // Centraliza os itens
+        gap: 10px; // Espaçamento entre os itens
         padding-top: 15px;
   
         .active::after {
-          height: 2px; /* Ajusta a altura da linha fina */
+          height: 2px; // Ajusta a altura da linha fina
           margin-bottom: 5px;
         }
       }
   
       .hbloco3 {
-        gap: 8px;
+        display: flex;
+        align-items: center; // Centraliza os itens
+        gap: 10px;
         padding-top: 15px;
   
         .dropdown-menu {
-          top: 50px; /* Ajusta a posição do dropdown */
+          top: 50px; // Ajusta a posição do dropdown
           right: 10px;
           width: 120px;
         }

@@ -232,3 +232,91 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .curriculo-container {
+    padding: 10px;
+  }
+
+  .header {
+    h1 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .sections {
+    flex-direction: column; // Muda de linha para coluna
+  }
+
+  .section {
+    flex-basis: 100%; // Ocupa toda a largura
+    margin: 10px 0; // Reduz a margem
+    padding: 15px; // Reduz o padding
+
+    input[type="text"],
+    input[type="number"], 
+    select {
+      width: 100%; // Campos ocupam 100% da largura
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .dados-pessoais,
+  .objetivos-profissionais {
+    width: 100%; // Ocupa toda a largura
+    margin-bottom: 20px;
+
+    input[type="number"], 
+    select {
+      width: 100%;
+      margin-left: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .resumo-curriculo,
+  .escolaridade,
+  .cursos-importantes,
+  .experiencias-profissionais,
+  .idiomas,
+  .habilidades-qualificacoes {
+    padding: 15px;
+
+    input[type="text"],
+    input[type="number"], 
+    select {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 100%; // Botões ocupam toda a largura
+      margin-bottom: 10px;
+    }
+  }
+
+  .linkedin-edit {
+    flex-direction: column;
+    gap: 10px;
+
+    input {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .addLinkedin {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}

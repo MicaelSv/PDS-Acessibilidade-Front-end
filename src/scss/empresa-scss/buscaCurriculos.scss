@@ -115,3 +115,38 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .searchForm {
+    flex-direction: column;
+    align-items: center;
+
+    .inputField,
+    .searchButton {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+
+  .resultados-list {
+    .candidato-item {
+      width: 75% !important;
+      flex-direction: column;
+      text-align: center;
+
+      .candidato-info {
+        margin-right: 0;
+        margin-bottom: 15px;
+        text-align: center;
+
+        h4, p {
+          text-align: center;
+        }
+      }
+
+      .buttons-container {
+        justify-content: center;
+      }
+    }
+  }
+}

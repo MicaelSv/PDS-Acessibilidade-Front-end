@@ -243,9 +243,10 @@
       flex-direction: column;
       align-items: center;
       margin-top: 40px;
+      text-align: center;
 
       .mContainer2 {
-        margin-top: 20px;
+        margin-top: 30px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -259,18 +260,23 @@
     }
 
     .mBloco2 {
-      flex-direction: column;
-      gap: 30px;
-      margin-top: 40px;
+      .vaga-info {
+        display: flex;
+        flex-direction: column; // Empilha os cards verticalmente
+        align-items: center;
+        gap: 20px; // Espaço entre os cards
 
-      .buscarCurriculos, .anunciarVagas, .statusVagas {
-        width: 90%;
-        max-width: 400px;
-        height: auto;
-        padding: 20px;
+        // Estilização para cada card
+        .buscarCurriculos, 
+        .anunciarVagas, 
+        .statusVagas {
+          width: 90%; // Ocupa quase toda a largura
+          max-width: 400px; // Largura máxima
+          margin-bottom: 25px;
+        }
       }
     }
-
+  
     .anunciarVagas {
       margin-bottom: 120px;
     }

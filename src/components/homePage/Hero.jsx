@@ -22,8 +22,6 @@ function Hero() {
               são valorizadas e respeitadas.
             </p>
           </div>
-
-          <button className="button-hero">Explorar vagas</button>
         </div>
 
         <div className="right">

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import '../../scss/homePage-scss/modal.scss';
 
 function Modal({ onClose }) {
@@ -29,6 +30,31 @@ function Modal({ onClose }) {
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState('');
   const [showNotification, setShowNotification] = useState(false);
+
+  const [states, setStates] = useState([]);
+  const [selectedState, setSelectedState] = useState('');
+  const [cities, setCities] = useState([]);
+  
+  // Fetch estados
+  useEffect(() => {
+      fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+          .then(response => response.json())
+          .then(data => setStates(data))
+          .catch(error => console.error('Erro ao buscar estados:', error));
+  }, []);
+
+  // Fetch cidades baseado no estado selecionado
+  useEffect(() => {
+    if (selectedState) {
+      // Busca cidades com base no estado selecionado.
+      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`)
+        .then(response => response.json())
+        .then(data => setCities(data))
+        .catch(error => console.error('Erro ao buscar cidades:', error));
+    } else {
+      setCities([]); // Limpa as cidades quando nenhum estado está selecionado.
+    }
+  }, [selectedState]);
 
   const checkEmail = async (email) => {
     try {
@@ -349,11 +375,12 @@ const formatPhone = (value) => {
                     rows="4"
                   />
                   <label>Instituição</label>
-                  <select value={institution} onChange={(e) => setInstitution(e.target.value)}>
-                    <option value="IFAL">IFAL</option>
-                    <option value="UFAL">UFAL</option>
-                    <option value="Cesmac">Cesmac</option>
-                  </select>
+                  <input
+                    type="text"
+                    value={institution}
+                    onChange={(e) => setInstitution(e.target.value)}
+                    placeholder="Digite sua instituição"
+                  />
                   <label>Formação</label>
                   <select value={education} onChange={(e) => setEducation(e.target.value)}>
                     <option value="Ensino Fundamental">Ensino Fundamental</option>
@@ -407,38 +434,36 @@ const formatPhone = (value) => {
                     </div>
                   ))}
                   <label>Idiomas</label>
-                  <div className="dynamic-input">
-                    <select
-                      value={newLanguage.language}
-                      onChange={(e) => setNewLanguage({ ...newLanguage, language: e.target.value })}
-                    >
-                      <option value="">Selecione o idioma</option>
-                      <option value="Inglês">Inglês</option>
-                      <option value="Espanhol">Espanhol</option>
-                      <option value="Francês">Francês</option>
-                      <option value="Alemão">Alemão</option>
-                      <option value="Italiano">Italiano</option>
-                      <option value="Português">Português</option>
-                    </select>
-                    <select
-                      value={newLanguage.fluency}
-                      onChange={(e) => setNewLanguage({ ...newLanguage, fluency: e.target.value })}
-                    >
-                      <option value="">Selecione a fluência</option>
-                      <option value="Básico">Básico</option>
-                      <option value="Intermediário">Intermediário</option>
-                      <option value="Avançado">Avançado</option>
-                      <option value="Fluente">Fluente</option>
-                      <option value="Nativo">Nativo</option>
-                    </select>
-                    <button type="button" onClick={addLanguage}>Adicionar</button>
-                  </div>
-                  {languages.map((lang, index) => (
-                    <div key={index} className="item-list">
-                      {lang.language} - {lang.fluency}
-                      <button type="button" onClick={() => removeItem(setLanguages, languages, index)}>Remover</button>
-                    </div>
-                  ))}
+<div className="dynamic-input">
+  {/* Campo de texto para o idioma */}
+  <input
+    type="text"
+    value={newLanguage.language}
+    onChange={(e) => setNewLanguage({ ...newLanguage, language: e.target.value })}
+    placeholder="Digite o idioma"
+  />
+  {/* Select para fluência */}
+  <select
+    value={newLanguage.fluency}
+    onChange={(e) => setNewLanguage({ ...newLanguage, fluency: e.target.value })}
+  >
+    <option value="">Selecione a fluência</option>
+    <option value="Básico">Básico</option>
+    <option value="Intermediário">Intermediário</option>
+    <option value="Avançado">Avançado</option>
+    <option value="Fluente">Fluente</option>
+    <option value="Nativo">Nativo</option>
+  </select>
+  <button type="button" onClick={addLanguage}>Adicionar</button>
+</div>
+{/* Lista de idiomas adicionados */}
+{languages.map((lang, index) => (
+  <div key={index} className="item-list">
+    {lang.language} - {lang.fluency}
+    <button type="button" onClick={() => removeItem(setLanguages, languages, index)}>Remover</button>
+  </div>
+))}
+
 
                 <label className="habilidades-label">Habilidades e Qualificações</label>
 
@@ -525,15 +550,31 @@ const formatPhone = (value) => {
                   />
                   {errors.age && <span className="error-message">{errors.age}</span>}
 
-                  <label>Cidade</label>
-                  <input
-                    placeholder='Digite sua cidade'
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className={errors.city ? 'error' : ''}
-                  />
-                  {errors.city && <span className="error-message">{errors.city}</span>}
+                  <div className='ibge'>
+                    <label>Estado</label>
+                    <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)}>
+                      <option value="">Selecione um estado</option>
+                      {states.map(state => (
+                        <option key={state.id} value={state.sigla}>
+                          {state.nome}
+                        </option>
+                      ))}
+                    </select>
+
+                    <label>Cidade</label>
+                    <select 
+                      value={city} 
+                      onChange={(e) => setCity(e.target.value)} 
+                      disabled={!selectedState}
+                    >
+                      <option value="">Selecione uma cidade</option>
+                      {cities.map(city => (
+                        <option key={city.id} value={city.nome}>
+                          {city.nome}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                   <label>Cargo Desejado</label>
                   <input
@@ -586,10 +627,10 @@ const formatPhone = (value) => {
                     className={errors.disability ? 'error' : ''}
                   >
                     <option value="">Selecione a deficiência</option>
-                    <option value="VISUAL">Visual</option>
-                    <option value="AUDITIVA">Auditiva</option>
-                    <option value="FISICA">Física</option>
-                    <option value="MULTIPLA">Múltipla</option>
+                    <option value="Visual">Visual</option>
+                    <option value="Auditiva">Auditiva</option>
+                    <option value="Física">Física</option>
+                    <option value="Múltipla">Múltipla</option>
                   </select>
                   {errors.disability && <span className="error-message">{errors.disability}</span>}
 

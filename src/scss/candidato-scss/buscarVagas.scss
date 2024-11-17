@@ -373,3 +373,129 @@
     height: 20px;
   }
 }
+
+@media (max-width: 768px) {
+  .bv-container {
+    padding: 10px;
+
+    .bv-busca-container {
+      flex-direction: column;
+      margin-left: 0;
+      gap: 10px;
+      align-items: stretch;
+
+      .bv-campo-busca {
+        width: 100%;
+        
+        input {
+          width: 100%;
+          padding: 8px;
+        }
+
+        .bv-lupa-icon {
+          margin-left: 5px;
+        }
+      }
+
+      .bv-filtro-deficiencia {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .bv-buscar-btn {
+        width: 100%;
+        margin-left: 0;
+        border-radius: 5px;
+      }
+    }
+
+    .bv-imagem-busca {
+      margin-top: 30px;
+      
+      img {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+      }
+    }
+
+    .bv-lista-vagas {
+      .bv-vagas-container {
+        .bv-vaga-item {
+          width: 100%;
+          max-width: 100%;
+          padding: 10px;
+
+          h3 {
+            font-size: 1em;
+          }
+
+          h4 {
+            font-size: 0.9em;
+          }
+
+          p {
+            font-size: 0.8em;
+          }
+        }
+      }
+    }
+  }
+
+  .bv-modal-content {
+    width: 95%;
+    max-width: 95%;
+    padding: 15px;
+
+    .bv-modal-header {
+      .bv-header-info {
+        h2 {
+          font-size: 1.2em;
+        }
+
+        h3 {
+          font-size: 1em;
+        }
+
+        p {
+          font-size: 0.9em;
+        }
+
+        .bv-btn-candidatar {
+          padding: 8px 15px;
+          font-size: 0.9em;
+        }
+      }
+    }
+
+    .bv-modal-tabs {
+      gap: 5px;
+
+      .bv-tab {
+        padding: 8px 12px;
+        font-size: 0.9em;
+      }
+    }
+
+    .bv-modal-body {
+      padding: 10px 0;
+
+      .bv-info-item {
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+    }
+  }
+
+  .notificacao-popup {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    width: calc(100% - 20px);
+
+    .notificacao-conteudo {
+      padding: 10px;
+      font-size: 0.9em;
+    }
+  }
+}

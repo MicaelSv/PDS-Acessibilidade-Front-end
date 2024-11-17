@@ -214,6 +214,13 @@
 
   @media (max-width: 768px) {
     .AreaCandidato {
+
+      .msg-inicial {
+        text-align: center;
+        margin-right: 60px;
+        margin-bottom: 40px;
+      }
+
       .contentArea {
         flex-direction: column;
         align-items: center;

@@ -70,7 +70,21 @@ function CurriculoCandidato() {
         <div className="header">
           <h1 className="nomeUsuario">{decodeSpecialChars(dadosUsuario.nome) || 'Campo não preenchido'}</h1>
           <p>{dadosUsuario.email || 'Campo não preenchido'}</p>
-          <p>LinkedIn: {dadosUsuario.linkedin || 'Campo não preenchido'}</p>
+          <p>
+    LinkedIn: 
+    {dadosUsuario.linkedin ? (
+      <a 
+        href={dadosUsuario.linkedin} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="linkedin-link" // Classe CSS opcional
+      >
+        {dadosUsuario.linkedin}
+      </a>
+    ) : (
+      'Campo não preenchido'
+    )}
+  </p>
           <p>Possui deficiência: {decodeSpecialChars(dadosUsuario.tipo_deficiencia) || 'Campo não preenchido'}</p>
         </div>
 
@@ -79,7 +93,7 @@ function CurriculoCandidato() {
             <h2>Dados Pessoais</h2>
             <p>Idade: {dadosUsuario.idade || 'Campo não preenchido'}</p>
             <p>Gênero: {decodeSpecialChars(dadosUsuario.sexo) || 'Campo não preenchido'}</p>
-            <p>Endereço: {decodeSpecialChars(dadosUsuario.cidade) || 'Campo não preenchido'}</p>
+            <p>Cidade: {decodeSpecialChars(dadosUsuario.cidade) || 'Campo não preenchido'}</p>
             <p>Celular: {dadosUsuario.telefone || 'Campo não preenchido'}</p>
           </div>
 

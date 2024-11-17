@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../scss/candidato-scss/curriculo.scss';
 
 function Curriculo() {
+
   const [usuario, setUsuario] = useState({
     nome: '',
     email: '',
@@ -259,6 +260,31 @@ function Curriculo() {
     setResumo(e.target.value);
   };
 
+  const [states, setStates] = useState([]);
+  const [selectedState, setSelectedState] = useState(usuario.estado || ''); // Estado inicial baseado no usuário
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(usuario.cidade || ''); // Cidade inicial baseada no usuário
+
+
+  useEffect(() => {
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+      .then(response => response.json())
+      .then(data => setStates(data))
+      .catch(error => console.error('Erro ao buscar estados:', error));
+  }, []);
+
+  // Fetch cidades baseado no estado selecionado
+  useEffect(() => {
+    if (selectedState) {
+      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedState}/municipios`)
+        .then(response => response.json())
+        .then(data => setCities(data))
+        .catch(error => console.error('Erro ao buscar cidades:', error));
+    } else {
+      setCities([]);
+    }
+  }, [selectedState]);
+
   return (
     <div className="curriculo-container">
       <div className="header">
@@ -279,8 +305,16 @@ function Curriculo() {
   ) : (
     <>
       {usuario.linkedin ? (
-        <span> {usuario.linkedin}
-<button className='addLinkedin'onClick={() => handleEdit('linkedin')}>Editar</button>
+        <span>
+          <a 
+            href={usuario.linkedin} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            style={{ color: 'blue', textDecoration: 'underline' }} // Estilo opcional
+          >
+            {usuario.linkedin}
+          </a>
+          <button className='addLinkedin' onClick={() => handleEdit('linkedin')}>Editar</button>
         </span>
       ) : (
         <button className='addLinkedin' onClick={() => handleEdit('linkedin')}>
@@ -293,44 +327,105 @@ function Curriculo() {
   
         <p>Possui deficiência {usuario.tipo_deficiencia}</p>
       </div>
-
       <div className="sections">
-        <div className="section dados-pessoais">
-          <h2>Dados Pessoais</h2>
-          {isEditing.dadosPessoais ? (
-            <>
-              <p>
-                <label htmlFor="idade">Idade:</label>
-                <input type="number" id="idade" name="idade" value={usuario.idade} onChange={handleChange} />
-              </p>
-              <p>
-                <label htmlFor="sexo">Sexo:</label>
-                <select id="sexo" name="sexo" value={usuario.sexo} onChange={handleChange}>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Feminino">Feminino</option>
-                  <option value="Outro">Outro</option>
-                </select>
-              </p>
-              <p>
-                <label htmlFor="cidade">Endereço:</label>
-                <input type="text" id="cidade" name="cidade" value={usuario.cidade} onChange={handleChange} />
-              </p>
-              <p>
-                <label htmlFor="telefone">Celular:</label>
-                <input type="text" id="telefone" name="telefone" value={usuario.telefone} onChange={handleChange} />
-              </p>
-              <button onClick={() => handleSave('dadosPessoais')}>Salvar</button>
-            </>
-          ) : (
-            <>
-              <p>Idade: {usuario.idade} anos</p>
-              <p>Gênero: {usuario.sexo}</p>
-              <p>Endereço: {usuario.cidade}</p>
-              <p>Celular: {usuario.telefone}</p>
-              <button onClick={() => handleEdit('dadosPessoais')}>Editar</button>
-            </>
-          )}
-        </div>
+      <div className="section dados-pessoais">
+      <h2>Dados Pessoais</h2>
+      {isEditing.dadosPessoais ? (
+        <>
+          <p>
+            <label htmlFor="idade">Idade:</label>
+            <input
+              type="number"
+              id="idade"
+              name="idade"
+              value={usuario.idade}
+              onChange={handleChange}
+            />
+          </p>
+          <p>
+            <label htmlFor="sexo">Sexo:</label>
+            <select
+              id="sexo"
+              name="sexo"
+              value={usuario.sexo}
+              onChange={handleChange}
+            >
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </p>
+          <p>
+            <label htmlFor="estado">Estado:</label>
+            <select
+              id="estado"
+              value={selectedState}
+              onChange={(e) => {
+                setSelectedState(e.target.value);
+                setSelectedCity(''); // Limpa a cidade ao trocar o estado
+              }}
+            >
+              <option value="">Selecione um estado</option>
+              {states.map((state) => (
+                <option key={state.id} value={state.sigla}>
+                  {state.nome}
+                </option>
+              ))}
+            </select>
+          </p>
+          <p>
+            <label htmlFor="cidade">Cidade:</label>
+            <select
+  id="cidade"
+  value={usuario.cidade} // Set the initial value to the user's cidade
+  onChange={(e) => {
+    setSelectedCity(e.target.value); // Update the selectedCity state
+    setUsuario({ ...usuario, cidade: e.target.value }); // Update the usuario state
+  }}
+  disabled={!selectedState}
+>
+  <option value="">Selecione uma cidade</option>
+  {cities.map(city => (
+    <option key={city.id} value={city.nome}>
+      {city.nome}
+    </option>
+  ))}
+</select>
+          </p>
+          <p>
+            <label htmlFor="telefone">Celular:</label>
+            <input
+              type="text"
+              id="telefone"
+              name="telefone"
+              value={usuario.telefone}
+              onChange={handleChange}
+            />
+          </p>
+          <button
+            onClick={() => {
+              handleChange({
+                target: { name: 'estado', value: selectedState },
+              });
+              handleChange({
+                target: { name: 'cidade', value: selectedCity },
+              });
+              handleSave('dadosPessoais');
+            }}
+          >
+            Salvar
+          </button>
+        </>
+      ) : (
+        <>
+          <p>Idade: {usuario.idade} anos</p>
+          <p>Gênero: {usuario.sexo}</p>
+          <p>Cidade: {usuario.cidade}</p>
+          <p>Celular: {usuario.telefone}</p>
+          <button onClick={() => handleEdit('dadosPessoais')}>Editar</button>
+        </>
+      )}
+    </div>
 
         <div className="section objetivos-profissionais">
           <h2>Objetivos Profissionais</h2>
@@ -383,41 +478,46 @@ function Curriculo() {
       <div className='divider'></div>
 
       <div className="section escolaridade">
-          <h2>Escolaridade</h2>
-          {isEditing.escolaridade ? (
-            <>
-              <p>
-                Instituição: <input 
-                  type="text" 
-                  name="instituicao" 
-                  value={escolaridade.instituicao} 
-                  onChange={(e) => setEscolaridade({ ...escolaridade, instituicao: e.target.value })} 
-                />
-              </p>
-              <p>
-                Formação: <input 
-                  type="text" 
-                  name="formacao" 
-                  value={escolaridade.formacao} 
-                  onChange={(e) => setEscolaridade({ ...escolaridade, formacao: e.target.value })} 
-                />
-              </p>
-              <button onClick={() => handleSave('escolaridade')}>Salvar</button>
-            </>
-          ) : (
-            <>
-              {escolaridade.instituicao || escolaridade.formacao ? (
-                <>
-                  <p>Instituição: {escolaridade.instituicao}</p>
-                  <p>Formação: {escolaridade.formacao}</p>
-                </>
-              ) : (
-                <p>Escolaridade não foi cadastrada</p>
-              )}
-              <button onClick={() => handleEdit('escolaridade')}>Editar</button>
-            </>
-          )}
-        </div>
+  <h2>Escolaridade</h2>
+  {isEditing.escolaridade ? (
+    <>
+      <p>
+        Instituição: 
+        <input 
+          type="text" 
+          name="instituicao" 
+          value={escolaridade.instituicao} 
+          onChange={(e) => setEscolaridade({ ...escolaridade, instituicao: e.target.value })} 
+        />
+      </p>
+      <p>
+        Formação: 
+        <select 
+          value={escolaridade.formacao} 
+          onChange={(e) => setEscolaridade({ ...escolaridade, formacao: e.target.value })} 
+        >
+          <option value="">Selecione a formação</option>
+          <option value="Ensino Fundamental">Ensino Fundamental</option>
+          <option value="Ensino Médio">Ensino Médio</option>
+          <option value="Ensino Superior">Ensino Superior</option>
+        </select>
+      </p>
+      <button onClick={() => handleSave('escolaridade')}>Salvar</button>
+    </>
+  ) : (
+    <>
+      {escolaridade.instituicao || escolaridade.formacao ? (
+        <>
+          <p>Instituição: {escolaridade.instituicao}</p>
+          <p>Formação: {escolaridade.formacao}</p>
+        </>
+      ) : (
+        <p>Escolaridade não foi cadastrada</p>
+      )}
+      <button onClick={() => handleEdit('escolaridade')}>Editar</button>
+    </>
+  )}
+</div>
 
       <div className='divider'></div>  
 
@@ -559,24 +659,18 @@ function Curriculo() {
       </div>
 
       <div className="add-idioma-form">
-        <select 
+        {/* Campo de texto para o idioma */}
+        <input 
+          type="text" 
           value={newIdioma.idioma} 
-          onChange={(e) => setNewIdioma({...newIdioma, idioma: e.target.value})}
-        >
-          <option value="">Selecione um idioma</option>
-          <option value="Português">Português</option>
-          <option value="Inglês">Inglês</option>
-          <option value="Espanhol">Espanhol</option>
-          <option value="Francês">Francês</option>
-          <option value="Alemão">Alemão</option>
-          <option value="Italiano">Italiano</option>
-          <option value="Mandarim">Mandarim</option>
-          <option value="Japonês">Japonês</option>
-        </select>
+          onChange={(e) => setNewIdioma({ ...newIdioma, idioma: e.target.value })} 
+          placeholder="Digite o idioma"
+        />
 
+        {/* Select para fluência */}
         <select 
           value={newIdioma.fluencia} 
-          onChange={(e) => setNewIdioma({...newIdioma, fluencia: e.target.value})}
+          onChange={(e) => setNewIdioma({ ...newIdioma, fluencia: e.target.value })} 
         >
           <option value="">Selecione o nível</option>
           <option value="Básico">Básico</option>
@@ -587,7 +681,7 @@ function Curriculo() {
         </select>
 
         <button 
-          onClick={addIdioma}
+          onClick={addIdioma} 
           disabled={!newIdioma.idioma || !newIdioma.fluencia}
         >
           Adicionar Idioma
