@@ -53,13 +53,13 @@
           .then(data => setCities(data))
           .catch(error => console.error('Erro ao buscar cidades:', error));
       } else {
-        setCities([]);
+        setCities([]);  
       }
     }, [selectedState]);
 
     const checkEmail = async (email) => {
       try {
-        const response = await fetch('/api/check-email', {
+        const response = await fetch('https://api-accessable.vercel.app/check-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -68,7 +68,6 @@
         });
 
         if (!response.ok) {
-          
           const data = await response.json();
           return data.message;
         }
@@ -163,7 +162,7 @@
         };
     
         try {
-          const response = await fetch('/api/register/empresa', {
+          const response = await fetch('https://api-accessable.vercel.app/register/empresa', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
