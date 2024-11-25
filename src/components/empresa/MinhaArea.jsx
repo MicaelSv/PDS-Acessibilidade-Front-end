@@ -34,6 +34,7 @@ function MinhaArea() {
   };
 
   useEffect(() => {
+    document.title = "Minha área";
     const nomeEmpresaStorage = localStorage.getItem('nomeUsuario');
     if (nomeEmpresaStorage) {
       setNomeEmpresa(nomeEmpresaStorage);

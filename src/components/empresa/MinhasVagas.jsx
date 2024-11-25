@@ -13,6 +13,10 @@ function MinhasVagas() {
   const [vagasFechadas, setVagasFechadas] = useState([]);
   const [candidatos, setCandidatos] = useState([]); // Novo estado para candidatos
 
+  useEffect(() => {
+    document.title = "Minhas vagas"; // Altere para o título desejado
+  }, []);
+
   const handleVerCurriculo = (usuarioId) => {
     window.open(`/CurriculoCandidato/${usuarioId}`, '_blank');
   };

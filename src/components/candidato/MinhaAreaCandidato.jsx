@@ -14,6 +14,8 @@ function MinhaAreaCandidato() {
   const [profileStrength, setProfileStrength] = useState(0);
 
   useEffect(() => {
+    document.title = "Minha área";
+
     const nome = localStorage.getItem('nomeUsuario');
     if (nome) {
       setUsuarioNome(nome);

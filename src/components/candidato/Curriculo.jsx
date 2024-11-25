@@ -48,6 +48,7 @@ function Curriculo() {
   });
 
   useEffect(() => {
+    document.title = "Visualizar Currículo";
     fetchUsuario();
   }, []);
 

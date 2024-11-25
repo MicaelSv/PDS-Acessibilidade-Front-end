@@ -17,6 +17,7 @@ function PerfilEmpresa() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
+    document.title = "Configurações"; 
     const nomeEmpresaStorage = localStorage.getItem('nomeUsuario');
     if (nomeEmpresaStorage) {
       setNomeEmpresa(nomeEmpresaStorage);

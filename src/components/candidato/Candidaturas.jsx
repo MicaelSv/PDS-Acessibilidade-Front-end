@@ -17,6 +17,8 @@ function Candidaturas() {
   const etapas = Object.keys(etapasMap);
 
   useEffect(() => {
+    document.title = "Candidaturas";
+
     async function fetchCandidaturas() {
       try {
         const response = await axios.get('https://api-accessable.vercel.app/candidaturas', {

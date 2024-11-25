@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../../scss/empresa-scss/buscaCurriculos.scss';
 
 function BuscaCurriculos() {
   const [keyword, setKeyword] = useState('');
   const [resultados, setResultados] = useState([]); // Estado para armazenar resultados
   const [pesquisaRealizada, setPesquisaRealizada] = useState(false);
+
+  useEffect(() => {
+    document.title = "Buscar currículos"; // Altere para o título desejado
+  }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();

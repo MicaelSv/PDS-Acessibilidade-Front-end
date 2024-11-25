@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import '../../scss/candidato-scss/buscarVagas.scss';
 import axios from 'axios';
 
@@ -17,6 +17,10 @@ function BuscarVagas() {
     mensagem: '', 
     tipo: '' 
   });
+
+  useEffect(() => {
+    document.title = "Buscar Vagas"; // Altere para o título desejado
+  }, []);
 
   const handleBuscarVagas = async () => {
     if (query.trim() !== '') {

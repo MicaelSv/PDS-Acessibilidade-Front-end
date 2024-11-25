@@ -11,6 +11,7 @@ function PerfilCandidato() {
   const [senhaError, setSenhaError] = useState('');
 
   useEffect(() => {
+    document.title = "Configurações";
     fetchPerfilData();
   }, []);
 
